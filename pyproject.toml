@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "provenuance"
+version = "0.1.0"
+description = "ProveNuance — system ekstrakcji i wnioskowania wiedzy matematycznej"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.29",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.2",
+    "asyncpg>=0.29",
+    "httpx>=0.27",
+    "typer>=0.12",
+    "rich>=13",
+]
+
+[project.scripts]
+provenuance = "provenuance:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["adapters*", "ports*", "api*"]
+
+[tool.setuptools]
+py-modules = ["provenuance", "contracts", "config"]

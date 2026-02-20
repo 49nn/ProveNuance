@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: prove-nuance-db
+    environment:
+      POSTGRES_DB: prove_nuance
+      POSTGRES_USER: prove_nuance
+      POSTGRES_PASSWORD: prove_nuance_secret
+    volumes:
+      - prove_nuance_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prove_nuance -d prove_nuance"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prove-nuance-api
+    ports:
+      - "8000:8000"
+    environment:
+      PROVE_NUANCE_DB_URL: "postgresql+asyncpg://prove_nuance:prove_nuance_secret@db:5432/prove_nuance"
+      PROVE_NUANCE_LOG_LEVEL: "INFO"
+      PROVE_NUANCE_MAX_REASONER_DEPTH: "30"
+      PROVE_NUANCE_REASONER_TIMEOUT_MS: "5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  prove_nuance_data:
+    driver: local

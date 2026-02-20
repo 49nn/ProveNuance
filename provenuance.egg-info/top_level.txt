@@ -1,0 +1,6 @@
+adapters
+api
+config
+contracts
+ports
+provenuance

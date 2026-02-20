@@ -1,0 +1,3424 @@
+[
+  {
+    "id": 0,
+    "text": "Twierdzenie Cantora mówi , że dla przestrzeń metryczna zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Cantora",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "przestrzeń",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "metryczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Cantora",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "przestrzeń metryczna",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "text": "Twierdzenie Cantora mówi , że dla grupa abelowa zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Cantora",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "grupa",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "abelowa",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Cantora",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "grupa abelowa",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "Porównaj Twierdzenie Noether z Lemat Urysohna oraz Def . 3 . 4 .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Porównaj",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "Noether",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "z",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 6,
+        "text": "Urysohna",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 7,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Def",
+        "ner": "B-REF"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 10,
+        "text": "3",
+        "ner": "I-REF"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 12,
+        "text": "4",
+        "ner": "I-REF"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Noether",
+        "label": "THEOREM",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Lemat Urysohna",
+        "label": "LEMMA",
+        "start_token": 5,
+        "end_token": 6
+      },
+      {
+        "text": "Def . 3 . 4",
+        "label": "REF",
+        "start_token": 8,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "text": "Niech ( krzywa eliptyczna ) będzie dana ; wtedy Definicja topologii ilorazowej implikuje istnienie operator Laplace’a .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Niech",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "(",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "krzywa",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 4,
+        "text": "eliptyczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 5,
+        "text": ")",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "będzie",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "dana",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": ";",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "wtedy",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 11,
+        "text": "topologii",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 12,
+        "text": "ilorazowej",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 13,
+        "text": "implikuje",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "istnienie",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "operator",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 16,
+        "text": "Laplace’a",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 17,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "krzywa eliptyczna",
+        "label": "STRUCTURE",
+        "start_token": 3,
+        "end_token": 4
+      },
+      {
+        "text": "Definicja topologii ilorazowej",
+        "label": "DEF",
+        "start_token": 10,
+        "end_token": 12
+      },
+      {
+        "text": "operator Laplace’a",
+        "label": "FUNCTION",
+        "start_token": 15,
+        "end_token": 16
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "Rozważ ciąg Fibonacciego ; jej granica zależy od γ .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Rozważ",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "ciąg",
+        "ner": "B-SEQUENCE"
+      },
+      {
+        "id": 3,
+        "text": "Fibonacciego",
+        "ner": "I-SEQUENCE"
+      },
+      {
+        "id": 4,
+        "text": ";",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "jej",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "granica",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "zależy",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "od",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "γ",
+        "ner": "B-CONSTANT"
+      },
+      {
+        "id": 10,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "ciąg Fibonacciego",
+        "label": "SEQUENCE",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "γ",
+        "label": "CONSTANT",
+        "start_token": 9,
+        "end_token": 9
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "W dowodzie używamy Aksjomat Peano oraz Lemat Gronwalla .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "dowodzie",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "używamy",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": "Aksjomat",
+        "ner": "B-AXIOM"
+      },
+      {
+        "id": 5,
+        "text": "Peano",
+        "ner": "I-AXIOM"
+      },
+      {
+        "id": 6,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 8,
+        "text": "Gronwalla",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Aksjomat Peano",
+        "label": "AXIOM",
+        "start_token": 4,
+        "end_token": 5
+      },
+      {
+        "text": "Lemat Gronwalla",
+        "label": "LEMMA",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "text": "Hipoteza Riemanna pozostaje otwarta mimo pracy Turing .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Hipoteza",
+        "ner": "B-CONJECTURE"
+      },
+      {
+        "id": 2,
+        "text": "Riemanna",
+        "ner": "I-CONJECTURE"
+      },
+      {
+        "id": 3,
+        "text": "pozostaje",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": "otwarta",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "mimo",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "pracy",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "Turing",
+        "ner": "B-AUTHOR"
+      },
+      {
+        "id": 8,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Hipoteza Riemanna",
+        "label": "CONJECTURE",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "Turing",
+        "label": "AUTHOR",
+        "start_token": 7,
+        "end_token": 7
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "text": "Hipoteza Goldbacha pozostaje otwarta mimo pracy Euler .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Hipoteza",
+        "ner": "B-CONJECTURE"
+      },
+      {
+        "id": 2,
+        "text": "Goldbacha",
+        "ner": "I-CONJECTURE"
+      },
+      {
+        "id": 3,
+        "text": "pozostaje",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": "otwarta",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "mimo",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "pracy",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "Euler",
+        "ner": "B-AUTHOR"
+      },
+      {
+        "id": 8,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Hipoteza Goldbacha",
+        "label": "CONJECTURE",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "Euler",
+        "label": "AUTHOR",
+        "start_token": 7,
+        "end_token": 7
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "text": "W Definicja miary Lebesgue’a zakładamy , że grupa abelowa jest zupełna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 3,
+        "text": "miary",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 4,
+        "text": "Lebesgue’a",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 5,
+        "text": "zakładamy",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "grupa",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "abelowa",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 10,
+        "text": "jest",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "zupełna",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Definicja miary Lebesgue’a",
+        "label": "DEF",
+        "start_token": 2,
+        "end_token": 4
+      },
+      {
+        "text": "grupa abelowa",
+        "label": "STRUCTURE",
+        "start_token": 8,
+        "end_token": 9
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "text": "Cantor udowodnił Twierdzenie Pitagorasa w kontekście zbiór Julia .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Cantor",
+        "ner": "B-AUTHOR"
+      },
+      {
+        "id": 2,
+        "text": "udowodnił",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "Pitagorasa",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 5,
+        "text": "w",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "kontekście",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "zbiór",
+        "ner": "B-SET"
+      },
+      {
+        "id": 8,
+        "text": "Julia",
+        "ner": "I-SET"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Cantor",
+        "label": "AUTHOR",
+        "start_token": 1,
+        "end_token": 1
+      },
+      {
+        "text": "Twierdzenie Pitagorasa",
+        "label": "THEOREM",
+        "start_token": 3,
+        "end_token": 4
+      },
+      {
+        "text": "zbiór Julia",
+        "label": "SET",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "text": "Porównaj Twierdzenie Cantora z Lemat Gaussa oraz Lem . 1 . 2 .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Porównaj",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "Cantora",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "z",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 6,
+        "text": "Gaussa",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 7,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Lem",
+        "ner": "B-REF"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 10,
+        "text": "1",
+        "ner": "I-REF"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 12,
+        "text": "2",
+        "ner": "I-REF"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Cantora",
+        "label": "THEOREM",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Lemat Gaussa",
+        "label": "LEMMA",
+        "start_token": 5,
+        "end_token": 6
+      },
+      {
+        "text": "Lem . 1 . 2",
+        "label": "REF",
+        "start_token": 8,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "text": "Na mocy Propozycja 2 . 1 otrzymujemy oszacowanie dla operator rzutowania .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Na",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "mocy",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Propozycja",
+        "ner": "B-PROPOSITION"
+      },
+      {
+        "id": 4,
+        "text": "2",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 5,
+        "text": ".",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 6,
+        "text": "1",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 7,
+        "text": "otrzymujemy",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "oszacowanie",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "operator",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 11,
+        "text": "rzutowania",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Propozycja 2 . 1",
+        "label": "PROPOSITION",
+        "start_token": 3,
+        "end_token": 6
+      },
+      {
+        "text": "operator rzutowania",
+        "label": "FUNCTION",
+        "start_token": 10,
+        "end_token": 11
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "text": "Na mocy Propozycja 2 . 1 otrzymujemy oszacowanie dla operator Laplace’a .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Na",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "mocy",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Propozycja",
+        "ner": "B-PROPOSITION"
+      },
+      {
+        "id": 4,
+        "text": "2",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 5,
+        "text": ".",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 6,
+        "text": "1",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 7,
+        "text": "otrzymujemy",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "oszacowanie",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "operator",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 11,
+        "text": "Laplace’a",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Propozycja 2 . 1",
+        "label": "PROPOSITION",
+        "start_token": 3,
+        "end_token": 6
+      },
+      {
+        "text": "operator Laplace’a",
+        "label": "FUNCTION",
+        "start_token": 10,
+        "end_token": 11
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "text": "Twierdzenie Bayesa mówi , że dla przestrzeń metryczna zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Bayesa",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "przestrzeń",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "metryczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Bayesa",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "przestrzeń metryczna",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "text": "Niech ( pierścień przemienny ) będzie dana ; wtedy Definicja grupy abelowej implikuje istnienie operator rzutowania .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Niech",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "(",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "pierścień",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 4,
+        "text": "przemienny",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 5,
+        "text": ")",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "będzie",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "dana",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": ";",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "wtedy",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 11,
+        "text": "grupy",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 12,
+        "text": "abelowej",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 13,
+        "text": "implikuje",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "istnienie",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "operator",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 16,
+        "text": "rzutowania",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 17,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "pierścień przemienny",
+        "label": "STRUCTURE",
+        "start_token": 3,
+        "end_token": 4
+      },
+      {
+        "text": "Definicja grupy abelowej",
+        "label": "DEF",
+        "start_token": 10,
+        "end_token": 12
+      },
+      {
+        "text": "operator rzutowania",
+        "label": "FUNCTION",
+        "start_token": 15,
+        "end_token": 16
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "text": "Porównaj Twierdzenie Fermata z Lemat Gaussa oraz Tw . 2 . 1 .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Porównaj",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "Fermata",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "z",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 6,
+        "text": "Gaussa",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 7,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Tw",
+        "ner": "B-REF"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 10,
+        "text": "2",
+        "ner": "I-REF"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 12,
+        "text": "1",
+        "ner": "I-REF"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Fermata",
+        "label": "THEOREM",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Lemat Gaussa",
+        "label": "LEMMA",
+        "start_token": 5,
+        "end_token": 6
+      },
+      {
+        "text": "Tw . 2 . 1",
+        "label": "REF",
+        "start_token": 8,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "text": "W dowodzie używamy Aksjomat Peano oraz Lemat Gaussa .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "dowodzie",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "używamy",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": "Aksjomat",
+        "ner": "B-AXIOM"
+      },
+      {
+        "id": 5,
+        "text": "Peano",
+        "ner": "I-AXIOM"
+      },
+      {
+        "id": 6,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 8,
+        "text": "Gaussa",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Aksjomat Peano",
+        "label": "AXIOM",
+        "start_token": 4,
+        "end_token": 5
+      },
+      {
+        "text": "Lemat Gaussa",
+        "label": "LEMMA",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "text": "W dowodzie używamy Aksjomat Peano oraz Lemat Urysohna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "dowodzie",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "używamy",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": "Aksjomat",
+        "ner": "B-AXIOM"
+      },
+      {
+        "id": 5,
+        "text": "Peano",
+        "ner": "I-AXIOM"
+      },
+      {
+        "id": 6,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 8,
+        "text": "Urysohna",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Aksjomat Peano",
+        "label": "AXIOM",
+        "start_token": 4,
+        "end_token": 5
+      },
+      {
+        "text": "Lemat Urysohna",
+        "label": "LEMMA",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "text": "Z Def . 3 . 4 wynika Wniosek 4 . 2 , a potem stosujemy Lemat Urysohna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Z",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Def",
+        "ner": "B-REF"
+      },
+      {
+        "id": 3,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 4,
+        "text": "3",
+        "ner": "I-REF"
+      },
+      {
+        "id": 5,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 6,
+        "text": "4",
+        "ner": "I-REF"
+      },
+      {
+        "id": 7,
+        "text": "wynika",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Wniosek",
+        "ner": "B-COROLLARY"
+      },
+      {
+        "id": 9,
+        "text": "4",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 10,
+        "text": ".",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 11,
+        "text": "2",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 12,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 13,
+        "text": "a",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "potem",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "stosujemy",
+        "ner": "O"
+      },
+      {
+        "id": 16,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 17,
+        "text": "Urysohna",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 18,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Def . 3 . 4",
+        "label": "REF",
+        "start_token": 2,
+        "end_token": 6
+      },
+      {
+        "text": "Wniosek 4 . 2",
+        "label": "COROLLARY",
+        "start_token": 8,
+        "end_token": 11
+      },
+      {
+        "text": "Lemat Urysohna",
+        "label": "LEMMA",
+        "start_token": 16,
+        "end_token": 17
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "text": "Niech ( przestrzeń metryczna ) będzie dana ; wtedy Definicja grupy abelowej implikuje istnienie operator Laplace’a .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Niech",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "(",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "przestrzeń",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 4,
+        "text": "metryczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 5,
+        "text": ")",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "będzie",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "dana",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": ";",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "wtedy",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 11,
+        "text": "grupy",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 12,
+        "text": "abelowej",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 13,
+        "text": "implikuje",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "istnienie",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "operator",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 16,
+        "text": "Laplace’a",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 17,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "przestrzeń metryczna",
+        "label": "STRUCTURE",
+        "start_token": 3,
+        "end_token": 4
+      },
+      {
+        "text": "Definicja grupy abelowej",
+        "label": "DEF",
+        "start_token": 10,
+        "end_token": 12
+      },
+      {
+        "text": "operator Laplace’a",
+        "label": "FUNCTION",
+        "start_token": 15,
+        "end_token": 16
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "text": "Twierdzenie Pitagorasa mówi , że dla algebra Liego zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Pitagorasa",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "algebra",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "Liego",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Pitagorasa",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "algebra Liego",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "text": "Rozważ ciąg Bernoulliego ; jej granica zależy od γ .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Rozważ",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "ciąg",
+        "ner": "B-SEQUENCE"
+      },
+      {
+        "id": 3,
+        "text": "Bernoulliego",
+        "ner": "I-SEQUENCE"
+      },
+      {
+        "id": 4,
+        "text": ";",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "jej",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "granica",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "zależy",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "od",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "γ",
+        "ner": "B-CONSTANT"
+      },
+      {
+        "id": 10,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "ciąg Bernoulliego",
+        "label": "SEQUENCE",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "γ",
+        "label": "CONSTANT",
+        "start_token": 9,
+        "end_token": 9
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "text": "Porównaj Twierdzenie Bayesa z Lemat Gronwalla oraz Lem . 1 . 2 .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Porównaj",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "Bayesa",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "z",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 6,
+        "text": "Gronwalla",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 7,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Lem",
+        "ner": "B-REF"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 10,
+        "text": "1",
+        "ner": "I-REF"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 12,
+        "text": "2",
+        "ner": "I-REF"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Bayesa",
+        "label": "THEOREM",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Lemat Gronwalla",
+        "label": "LEMMA",
+        "start_token": 5,
+        "end_token": 6
+      },
+      {
+        "text": "Lem . 1 . 2",
+        "label": "REF",
+        "start_token": 8,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "text": "Euler udowodnił Twierdzenie Cantora w kontekście zbiór Cantora .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Euler",
+        "ner": "B-AUTHOR"
+      },
+      {
+        "id": 2,
+        "text": "udowodnił",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "Cantora",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 5,
+        "text": "w",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "kontekście",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "zbiór",
+        "ner": "B-SET"
+      },
+      {
+        "id": 8,
+        "text": "Cantora",
+        "ner": "I-SET"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Euler",
+        "label": "AUTHOR",
+        "start_token": 1,
+        "end_token": 1
+      },
+      {
+        "text": "Twierdzenie Cantora",
+        "label": "THEOREM",
+        "start_token": 3,
+        "end_token": 4
+      },
+      {
+        "text": "zbiór Cantora",
+        "label": "SET",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "text": "Twierdzenie Noether mówi , że dla pierścień przemienny zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Noether",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "pierścień",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "przemienny",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Noether",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "pierścień przemienny",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "text": "W Definicja grupy abelowej zakładamy , że przestrzeń metryczna jest zupełna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 3,
+        "text": "grupy",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 4,
+        "text": "abelowej",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 5,
+        "text": "zakładamy",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "przestrzeń",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "metryczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 10,
+        "text": "jest",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "zupełna",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Definicja grupy abelowej",
+        "label": "DEF",
+        "start_token": 2,
+        "end_token": 4
+      },
+      {
+        "text": "przestrzeń metryczna",
+        "label": "STRUCTURE",
+        "start_token": 8,
+        "end_token": 9
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "text": "Twierdzenie Bayesa mówi , że dla algebra Liego zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Bayesa",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "algebra",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "Liego",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Bayesa",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "algebra Liego",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "text": "W Definicja miary Lebesgue’a zakładamy , że algebra Liego jest zupełna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 3,
+        "text": "miary",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 4,
+        "text": "Lebesgue’a",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 5,
+        "text": "zakładamy",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "algebra",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "Liego",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 10,
+        "text": "jest",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "zupełna",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Definicja miary Lebesgue’a",
+        "label": "DEF",
+        "start_token": 2,
+        "end_token": 4
+      },
+      {
+        "text": "algebra Liego",
+        "label": "STRUCTURE",
+        "start_token": 8,
+        "end_token": 9
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "text": "Na mocy Propozycja 3 . 4 otrzymujemy oszacowanie dla funkcja zeta Riemanna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Na",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "mocy",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Propozycja",
+        "ner": "B-PROPOSITION"
+      },
+      {
+        "id": 4,
+        "text": "3",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 5,
+        "text": ".",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 6,
+        "text": "4",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 7,
+        "text": "otrzymujemy",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "oszacowanie",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "funkcja",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 11,
+        "text": "zeta",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 12,
+        "text": "Riemanna",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Propozycja 3 . 4",
+        "label": "PROPOSITION",
+        "start_token": 3,
+        "end_token": 6
+      },
+      {
+        "text": "funkcja zeta Riemanna",
+        "label": "FUNCTION",
+        "start_token": 10,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "text": "Z Zob . Wniosek 2 . 3 wynika Wniosek 4 . 2 , a potem stosujemy Lemat Urysohna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Z",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Zob",
+        "ner": "B-REF"
+      },
+      {
+        "id": 3,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 4,
+        "text": "Wniosek",
+        "ner": "I-REF"
+      },
+      {
+        "id": 5,
+        "text": "2",
+        "ner": "I-REF"
+      },
+      {
+        "id": 6,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 7,
+        "text": "3",
+        "ner": "I-REF"
+      },
+      {
+        "id": 8,
+        "text": "wynika",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "Wniosek",
+        "ner": "B-COROLLARY"
+      },
+      {
+        "id": 10,
+        "text": "4",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 12,
+        "text": "2",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 13,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "a",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "potem",
+        "ner": "O"
+      },
+      {
+        "id": 16,
+        "text": "stosujemy",
+        "ner": "O"
+      },
+      {
+        "id": 17,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 18,
+        "text": "Urysohna",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 19,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Zob . Wniosek 2 . 3",
+        "label": "REF",
+        "start_token": 2,
+        "end_token": 7
+      },
+      {
+        "text": "Wniosek 4 . 2",
+        "label": "COROLLARY",
+        "start_token": 9,
+        "end_token": 12
+      },
+      {
+        "text": "Lemat Urysohna",
+        "label": "LEMMA",
+        "start_token": 17,
+        "end_token": 18
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "text": "Porównaj Twierdzenie Bayesa z Lemat Zorna oraz Def . 3 . 4 .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Porównaj",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "Bayesa",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "z",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 6,
+        "text": "Zorna",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 7,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Def",
+        "ner": "B-REF"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 10,
+        "text": "3",
+        "ner": "I-REF"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 12,
+        "text": "4",
+        "ner": "I-REF"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Bayesa",
+        "label": "THEOREM",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Lemat Zorna",
+        "label": "LEMMA",
+        "start_token": 5,
+        "end_token": 6
+      },
+      {
+        "text": "Def . 3 . 4",
+        "label": "REF",
+        "start_token": 8,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "text": "Niech ( algebra Liego ) będzie dana ; wtedy Definicja miary Lebesgue’a implikuje istnienie pochodna Gateaux .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Niech",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "(",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "algebra",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 4,
+        "text": "Liego",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 5,
+        "text": ")",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "będzie",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "dana",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": ";",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "wtedy",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 11,
+        "text": "miary",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 12,
+        "text": "Lebesgue’a",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 13,
+        "text": "implikuje",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "istnienie",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "pochodna",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 16,
+        "text": "Gateaux",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 17,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "algebra Liego",
+        "label": "STRUCTURE",
+        "start_token": 3,
+        "end_token": 4
+      },
+      {
+        "text": "Definicja miary Lebesgue’a",
+        "label": "DEF",
+        "start_token": 10,
+        "end_token": 12
+      },
+      {
+        "text": "pochodna Gateaux",
+        "label": "FUNCTION",
+        "start_token": 15,
+        "end_token": 16
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "text": "W Definicja przestrzeni Banacha zakładamy , że przestrzeń metryczna jest zupełna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "W",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Definicja",
+        "ner": "B-DEF"
+      },
+      {
+        "id": 3,
+        "text": "przestrzeni",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 4,
+        "text": "Banacha",
+        "ner": "I-DEF"
+      },
+      {
+        "id": 5,
+        "text": "zakładamy",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "przestrzeń",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "metryczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 10,
+        "text": "jest",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "zupełna",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Definicja przestrzeni Banacha",
+        "label": "DEF",
+        "start_token": 2,
+        "end_token": 4
+      },
+      {
+        "text": "przestrzeń metryczna",
+        "label": "STRUCTURE",
+        "start_token": 8,
+        "end_token": 9
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "text": "Z Zob . Wniosek 2 . 3 wynika Wniosek 2 . 3 , a potem stosujemy Lemat Gronwalla .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Z",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Zob",
+        "ner": "B-REF"
+      },
+      {
+        "id": 3,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 4,
+        "text": "Wniosek",
+        "ner": "B-COROLLARY"
+      },
+      {
+        "id": 5,
+        "text": "2",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 6,
+        "text": ".",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 7,
+        "text": "3",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 8,
+        "text": "wynika",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "Wniosek",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "2",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": "3",
+        "ner": "O"
+      },
+      {
+        "id": 13,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "a",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "potem",
+        "ner": "O"
+      },
+      {
+        "id": 16,
+        "text": "stosujemy",
+        "ner": "O"
+      },
+      {
+        "id": 17,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 18,
+        "text": "Gronwalla",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 19,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Zob .",
+        "label": "REF",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Wniosek 2 . 3",
+        "label": "COROLLARY",
+        "start_token": 4,
+        "end_token": 7
+      },
+      {
+        "text": "Lemat Gronwalla",
+        "label": "LEMMA",
+        "start_token": 17,
+        "end_token": 18
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "text": "Twierdzenie Fermata mówi , że dla algebra Liego zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Fermata",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "algebra",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "Liego",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Fermata",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "algebra Liego",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "text": "Z Równanie ( 5 ) wynika Wniosek 4 . 2 , a potem stosujemy Lemat Zorna .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Z",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Równanie",
+        "ner": "B-REF"
+      },
+      {
+        "id": 3,
+        "text": "(",
+        "ner": "I-REF"
+      },
+      {
+        "id": 4,
+        "text": "5",
+        "ner": "I-REF"
+      },
+      {
+        "id": 5,
+        "text": ")",
+        "ner": "I-REF"
+      },
+      {
+        "id": 6,
+        "text": "wynika",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "Wniosek",
+        "ner": "B-COROLLARY"
+      },
+      {
+        "id": 8,
+        "text": "4",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 10,
+        "text": "2",
+        "ner": "I-COROLLARY"
+      },
+      {
+        "id": 11,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": "a",
+        "ner": "O"
+      },
+      {
+        "id": 13,
+        "text": "potem",
+        "ner": "O"
+      },
+      {
+        "id": 14,
+        "text": "stosujemy",
+        "ner": "O"
+      },
+      {
+        "id": 15,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 16,
+        "text": "Zorna",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 17,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Równanie ( 5 )",
+        "label": "REF",
+        "start_token": 2,
+        "end_token": 5
+      },
+      {
+        "text": "Wniosek 4 . 2",
+        "label": "COROLLARY",
+        "start_token": 7,
+        "end_token": 10
+      },
+      {
+        "text": "Lemat Zorna",
+        "label": "LEMMA",
+        "start_token": 15,
+        "end_token": 16
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "text": "Porównaj Twierdzenie Cantora z Lemat Gronwalla oraz Tw . 2 . 1 .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Porównaj",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "Cantora",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "z",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "Lemat",
+        "ner": "B-LEMMA"
+      },
+      {
+        "id": 6,
+        "text": "Gronwalla",
+        "ner": "I-LEMMA"
+      },
+      {
+        "id": 7,
+        "text": "oraz",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "Tw",
+        "ner": "B-REF"
+      },
+      {
+        "id": 9,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 10,
+        "text": "2",
+        "ner": "I-REF"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "I-REF"
+      },
+      {
+        "id": 12,
+        "text": "1",
+        "ner": "I-REF"
+      },
+      {
+        "id": 13,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Cantora",
+        "label": "THEOREM",
+        "start_token": 2,
+        "end_token": 3
+      },
+      {
+        "text": "Lemat Gronwalla",
+        "label": "LEMMA",
+        "start_token": 5,
+        "end_token": 6
+      },
+      {
+        "text": "Tw . 2 . 1",
+        "label": "REF",
+        "start_token": 8,
+        "end_token": 12
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "text": "Banach udowodnił Twierdzenie o wartości średniej w kontekście zbiór Cantora .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Banach",
+        "ner": "B-AUTHOR"
+      },
+      {
+        "id": 2,
+        "text": "udowodnił",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 4,
+        "text": "o",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 5,
+        "text": "wartości",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 6,
+        "text": "średniej",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 7,
+        "text": "w",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "kontekście",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "zbiór",
+        "ner": "B-SET"
+      },
+      {
+        "id": 10,
+        "text": "Cantora",
+        "ner": "I-SET"
+      },
+      {
+        "id": 11,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Banach",
+        "label": "AUTHOR",
+        "start_token": 1,
+        "end_token": 1
+      },
+      {
+        "text": "Twierdzenie o wartości średniej",
+        "label": "THEOREM",
+        "start_token": 3,
+        "end_token": 6
+      },
+      {
+        "text": "zbiór Cantora",
+        "label": "SET",
+        "start_token": 9,
+        "end_token": 10
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "text": "Na mocy Propozycja 1 . 2 otrzymujemy oszacowanie dla operator Laplace’a .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Na",
+        "ner": "O"
+      },
+      {
+        "id": 2,
+        "text": "mocy",
+        "ner": "O"
+      },
+      {
+        "id": 3,
+        "text": "Propozycja",
+        "ner": "B-PROPOSITION"
+      },
+      {
+        "id": 4,
+        "text": "1",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 5,
+        "text": ".",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 6,
+        "text": "2",
+        "ner": "I-PROPOSITION"
+      },
+      {
+        "id": 7,
+        "text": "otrzymujemy",
+        "ner": "O"
+      },
+      {
+        "id": 8,
+        "text": "oszacowanie",
+        "ner": "O"
+      },
+      {
+        "id": 9,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "operator",
+        "ner": "B-FUNCTION"
+      },
+      {
+        "id": 11,
+        "text": "Laplace’a",
+        "ner": "I-FUNCTION"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Propozycja 1 . 2",
+        "label": "PROPOSITION",
+        "start_token": 3,
+        "end_token": 6
+      },
+      {
+        "text": "operator Laplace’a",
+        "label": "FUNCTION",
+        "start_token": 10,
+        "end_token": 11
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "text": "Twierdzenie Fermata mówi , że dla przestrzeń metryczna zachodzi własność X .",
+    "tokens": [
+      {
+        "id": 1,
+        "text": "Twierdzenie",
+        "ner": "B-THEOREM"
+      },
+      {
+        "id": 2,
+        "text": "Fermata",
+        "ner": "I-THEOREM"
+      },
+      {
+        "id": 3,
+        "text": "mówi",
+        "ner": "O"
+      },
+      {
+        "id": 4,
+        "text": ",",
+        "ner": "O"
+      },
+      {
+        "id": 5,
+        "text": "że",
+        "ner": "O"
+      },
+      {
+        "id": 6,
+        "text": "dla",
+        "ner": "O"
+      },
+      {
+        "id": 7,
+        "text": "przestrzeń",
+        "ner": "B-STRUCTURE"
+      },
+      {
+        "id": 8,
+        "text": "metryczna",
+        "ner": "I-STRUCTURE"
+      },
+      {
+        "id": 9,
+        "text": "zachodzi",
+        "ner": "O"
+      },
+      {
+        "id": 10,
+        "text": "własność",
+        "ner": "O"
+      },
+      {
+        "id": 11,
+        "text": "X",
+        "ner": "O"
+      },
+      {
+        "id": 12,
+        "text": ".",
+        "ner": "O"
+      }
+    ],
+    "entities": [
+      {
+        "text": "Twierdzenie Fermata",
+        "label": "THEOREM",
+        "start_token": 1,
+        "end_token": 2
+      },
+      {
+        "text": "przestrzeń metryczna",
+        "label": "STRUCTURE",
+        "start_token": 7,
+        "end_token": 8
+      }
+    ]
+  }
+]

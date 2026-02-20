@@ -1,0 +1,137 @@
+{
+  "dataset": "ProveNuance Math NER (PL)",
+  "labels": [
+    "AUTHOR",
+    "AXIOM",
+    "CONJECTURE",
+    "CONSTANT",
+    "COROLLARY",
+    "DEF",
+    "FUNCTION",
+    "LEMMA",
+    "PROPOSITION",
+    "REF",
+    "SEQUENCE",
+    "SET",
+    "STRUCTURE",
+    "THEOREM"
+  ],
+  "splits": {
+    "train": {
+      "sentence_count": 160,
+      "token_count": 1970,
+      "entity_count": 397,
+      "entities_per_label": {
+        "THEOREM": 60,
+        "LEMMA": 49,
+        "STRUCTURE": 47,
+        "AUTHOR": 39,
+        "REF": 39,
+        "DEF": 31,
+        "FUNCTION": 30,
+        "SET": 21,
+        "CONJECTURE": 18,
+        "COROLLARY": 16,
+        "PROPOSITION": 13,
+        "SEQUENCE": 12,
+        "CONSTANT": 12,
+        "AXIOM": 10
+      },
+      "label_token_count": {
+        "REF": 191,
+        "THEOREM": 144,
+        "LEMMA": 98,
+        "STRUCTURE": 94,
+        "DEF": 93,
+        "FUNCTION": 66,
+        "COROLLARY": 64,
+        "PROPOSITION": 52,
+        "SET": 42,
+        "AUTHOR": 39,
+        "CONJECTURE": 36,
+        "SEQUENCE": 24,
+        "AXIOM": 20,
+        "CONSTANT": 17
+      }
+    },
+    "dev": {
+      "sentence_count": 40,
+      "token_count": 504,
+      "entity_count": 97,
+      "entities_per_label": {
+        "THEOREM": 17,
+        "STRUCTURE": 16,
+        "LEMMA": 13,
+        "REF": 10,
+        "DEF": 8,
+        "FUNCTION": 8,
+        "AUTHOR": 5,
+        "PROPOSITION": 4,
+        "COROLLARY": 4,
+        "AXIOM": 3,
+        "SET": 3,
+        "SEQUENCE": 2,
+        "CONSTANT": 2,
+        "CONJECTURE": 2
+      },
+      "label_token_count": {
+        "REF": 47,
+        "THEOREM": 36,
+        "STRUCTURE": 32,
+        "LEMMA": 26,
+        "DEF": 24,
+        "FUNCTION": 17,
+        "PROPOSITION": 16,
+        "COROLLARY": 16,
+        "AXIOM": 6,
+        "SET": 6,
+        "AUTHOR": 5,
+        "SEQUENCE": 4,
+        "CONJECTURE": 4,
+        "CONSTANT": 2
+      }
+    },
+    "test": {
+      "sentence_count": 40,
+      "token_count": 520,
+      "entity_count": 101,
+      "entities_per_label": {
+        "STRUCTURE": 14,
+        "FUNCTION": 13,
+        "DEF": 12,
+        "THEOREM": 12,
+        "LEMMA": 10,
+        "REF": 9,
+        "AUTHOR": 7,
+        "PROPOSITION": 5,
+        "SET": 4,
+        "SEQUENCE": 4,
+        "CONSTANT": 4,
+        "CONJECTURE": 3,
+        "COROLLARY": 3,
+        "AXIOM": 1
+      },
+      "label_token_count": {
+        "REF": 43,
+        "DEF": 36,
+        "STRUCTURE": 28,
+        "FUNCTION": 28,
+        "THEOREM": 28,
+        "PROPOSITION": 20,
+        "LEMMA": 20,
+        "COROLLARY": 12,
+        "SET": 8,
+        "SEQUENCE": 8,
+        "AUTHOR": 7,
+        "CONSTANT": 7,
+        "CONJECTURE": 6,
+        "AXIOM": 2
+      }
+    }
+  },
+  "total": {
+    "sentence_count": 240,
+    "token_count": 2994,
+    "entity_count": 595
+  }
+}

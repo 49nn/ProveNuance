@@ -1,0 +1,3 @@
+# Wrapper dla ProveNuance CLI — używa venv z projektu
+# Użycie: .\pn.ps1 docs / .\pn.ps1 ingest ...
+& "$PSScriptRoot\.venv\Scripts\provenuance.exe" @args
