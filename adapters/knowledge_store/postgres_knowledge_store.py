@@ -128,6 +128,35 @@ class PostgresKnowledgeStore:
     async def close(self) -> None:
         await self._pool.close()
 
+    async def reset_all(self) -> dict[str, int]:
+        """
+        Deletes all KnowledgeStore rows (facts, rules, snapshots, history).
+        Returns row counts captured before truncation.
+        """
+        async with self._pool.acquire() as conn:
+            async with conn.transaction():
+                counts = {
+                    "facts": int(await conn.fetchval("SELECT COUNT(*) FROM facts")),
+                    "rules": int(await conn.fetchval("SELECT COUNT(*) FROM rules")),
+                    "snapshots": int(await conn.fetchval("SELECT COUNT(*) FROM snapshots")),
+                    "fact_history": int(await conn.fetchval("SELECT COUNT(*) FROM fact_history")),
+                    "rule_history": int(await conn.fetchval("SELECT COUNT(*) FROM rule_history")),
+                }
+                await conn.execute(
+                    """
+                    TRUNCATE TABLE
+                        snapshot_facts,
+                        snapshot_rules,
+                        fact_history,
+                        rule_history,
+                        snapshots,
+                        facts,
+                        rules
+                    RESTART IDENTITY
+                    """
+                )
+        return counts
+
     # ──────────────────────── Facts ──────────────────────────────────────
 
     async def upsert_fact(self, f: Fact) -> FactRef:

@@ -12,6 +12,7 @@ from adapters.frame_extractor.llm_extractor import LLMFrameExtractor
 from adapters.frame_extractor.stanza_aware_extractor import StanzaAwareExtractor
 from adapters.frame_mapper.math_grade1to3_mapper import MathGrade1to3Mapper
 from adapters.knowledge_store.postgres_knowledge_store import PostgresKnowledgeStore
+from adapters.math_problem_parser.llm_parser import LLMMathParser
 from adapters.validator.simple_validator import SimpleValidator
 
 
@@ -41,3 +42,7 @@ def get_validator(request: Request) -> SimpleValidator:
 
 def get_llm_extractor(request: Request) -> LLMFrameExtractor:
     return request.app.state.llm_extractor
+
+
+def get_math_problem_parser(request: Request) -> LLMMathParser:
+    return request.app.state.math_problem_parser

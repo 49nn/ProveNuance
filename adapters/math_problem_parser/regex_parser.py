@@ -252,11 +252,7 @@ class RegexMathParser:
 
         op = _detect_operation(text)
         if op is None:
-            # Brak słowa kluczowego — ale mamy liczby i pytajnik → zakładamy add
-            if "?" in text or re.search(r'\bhow\b|\bile\b', text, re.I):
-                op = "add"
-            else:
-                return None
+            return None
 
         # Buduj LogicQuery z dwóch pierwszych liczb
         a, b = nums[0], nums[1]

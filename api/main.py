@@ -24,6 +24,8 @@ from adapters.frame_extractor.llm_extractor import LLMFrameExtractor
 from adapters.frame_extractor.stanza_aware_extractor import StanzaAwareExtractor
 from adapters.frame_mapper.math_grade1to3_mapper import MathGrade1to3Mapper
 from adapters.knowledge_store.postgres_knowledge_store import PostgresKnowledgeStore
+from adapters.math_problem_parser.llm_parser import LLMMathParser
+from adapters.math_problem_parser.regex_parser import RegexMathParser
 from adapters.validator.simple_validator import SimpleValidator
 from api.routers import extract, ingest, knowledge, ner, promote, proof, solve
 from api.schemas import HealthResponse
@@ -58,6 +60,11 @@ async def lifespan(app: FastAPI):
     app.state.llm_extractor = LLMFrameExtractor(
         ner_backend_url=settings.ner_backend_url,
         timeout_ms=settings.ner_timeout_ms,
+    )
+    app.state.math_problem_parser = LLMMathParser(
+        backend_url=settings.math_parser_backend_url,
+        timeout_ms=settings.math_parser_timeout_ms,
+        fallback_parser=RegexMathParser(),
     )
 
     logger.info("ProveNuance API ready.")

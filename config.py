@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     ner_backend_url: str = "https://n8n.49nn.eu/webhook/ner"
     ner_timeout_ms: int = 10_000
 
+    # Math parser LLM backend service
+    math_parser_backend_url: str = ""
+    math_parser_timeout_ms: int = 10_000
+
     # App
     app_title: str = "ProveNuance"
     app_version: str = "0.1.0"
