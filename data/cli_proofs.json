@@ -146,5 +146,63 @@
       }
     ],
     "duration_ms": 9.50320006813854
+  },
+  "7d7f4cd8-3b15-4519-86d2-2c79a5dbbe11": {
+    "proof_id": "7d7f4cd8-3b15-4519-86d2-2c79a5dbbe11",
+    "created_at": "2026-02-20T23:17:21.419035+00:00",
+    "kind": "word_problem",
+    "original_text": "ala miala 2, dostala 1, potem dostala 3. ile ma teraz?",
+    "query": "add(2,1,?Z) -> add(3,3,?Z)",
+    "result": "6",
+    "short_proof": "Wykonano 2 kroki reasonera. Wynik: 6.",
+    "steps": [
+      "add(2,1,?Z)",
+      "add(3,3,?Z)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "b3da7921-d7db-4f52-8745-18c73c05097f",
+        "substitution": {
+          "?Z": "3"
+        },
+        "conclusion": "add(2,1,3)",
+        "span_citations": [
+          "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8"
+        ]
+      },
+      {
+        "step_id": 2,
+        "rule_or_fact_id": "bce2d917-f744-4256-a74b-77f329be1e28",
+        "substitution": {
+          "?Z": "6"
+        },
+        "conclusion": "add(3,3,6)",
+        "span_citations": [
+          "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "b3da7921-d7db-4f52-8745-18c73c05097f",
+      "bce2d917-f744-4256-a74b-77f329be1e28"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8",
+        "doc_id": "ef3d37e5-e85a-4eaf-af62-5bcf1688505a",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      }
+    ],
+    "duration_ms": 19.054300035350025
   }
 }
