@@ -56,5 +56,95 @@
       }
     ],
     "duration_ms": 13.227400020696223
+  },
+  "9befaab6-c4bf-4c5b-9ace-7554b3c60d4f": {
+    "proof_id": "9befaab6-c4bf-4c5b-9ace-7554b3c60d4f",
+    "created_at": "2026-02-20T23:03:11.810777+00:00",
+    "kind": "expr",
+    "original_text": "2+1+3",
+    "query": "add(2,1,?Z1)",
+    "result": "3",
+    "short_proof": "Znaleziono odpowiedz przez reasoner: 3.",
+    "steps": [
+      "add(2,1,?Z1)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "b3da7921-d7db-4f52-8745-18c73c05097f",
+        "substitution": {
+          "?Z1": "3"
+        },
+        "conclusion": "add(2,1,3)",
+        "span_citations": [
+          "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "b3da7921-d7db-4f52-8745-18c73c05097f"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8",
+        "doc_id": "ef3d37e5-e85a-4eaf-af62-5bcf1688505a",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      }
+    ],
+    "duration_ms": 9.134799940511584
+  },
+  "8ade95a0-06b2-4528-90af-d0d6343fbcdf": {
+    "proof_id": "8ade95a0-06b2-4528-90af-d0d6343fbcdf",
+    "created_at": "2026-02-20T23:06:33.570270+00:00",
+    "kind": "expr",
+    "original_text": "oblicz 2+1",
+    "query": "add(2,1,?Z)",
+    "result": "3",
+    "short_proof": "Znaleziono odpowiedz przez reasoner: 3.",
+    "steps": [
+      "add(2,1,?Z)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "b3da7921-d7db-4f52-8745-18c73c05097f",
+        "substitution": {
+          "?Z": "3"
+        },
+        "conclusion": "add(2,1,3)",
+        "span_citations": [
+          "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "b3da7921-d7db-4f52-8745-18c73c05097f"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8",
+        "doc_id": "ef3d37e5-e85a-4eaf-af62-5bcf1688505a",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      }
+    ],
+    "duration_ms": 9.50320006813854
   }
 }

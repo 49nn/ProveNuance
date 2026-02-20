@@ -1,27 +1,27 @@
 #!/usr/bin/env python3
 """
-provenuance.py â€” CLI narzÄ™dzie ProveNuance.
+provenuance.py — CLI narzędzie ProveNuance.
 
-DziaÅ‚a caÅ‚kowicie lokalnie â€” Å‚Ä…czy siÄ™ bezpoÅ›rednio z PostgreSQL,
+Działa całkowicie lokalnie — łączy się bezpośrednio z PostgreSQL,
 nie wymaga uruchomionego serwera API.
 
-Konfiguracja DB: zmienne Å›rodowiskowe z prefiksem PROVE_NUANCE_
+Konfiguracja DB: zmienne środowiskowe z prefiksem PROVE_NUANCE_
 lub plik .env (np. PROVE_NUANCE_DB_URL=postgresql://...).
 
 Podkomendy:
-    ingest   â€” wyÅ›lij dokument do DocumentStore
-    extract  â€” ekstrahuj ramki z dokumentu
-    promote  â€” promuj fakty/reguÅ‚y do 'asserted'
-    facts    â€” listuj fakty z KnowledgeStore
-    rules    â€” listuj reguÅ‚y z KnowledgeStore
-    ner      â€” uruchom NER na tekÅ›cie (wymaga backendu NER)
-    health   â€” sprawdÅº poÅ‚Ä…czenie z bazÄ… danych
-    reset    â€” usun wszystkie dane z KnowledgeStore
-    run      â€” lokalnie ekstrahuj ramki z tekstu (bez DB)
+    ingest   — wyślij dokument do DocumentStore
+    extract  — ekstrahuj ramki z dokumentu
+    promote  — promuj fakty/reguły do 'asserted'
+    facts    — listuj fakty z KnowledgeStore
+    rules    — listuj reguły z KnowledgeStore
+    ner      — uruchom NER na tekście (wymaga backendu NER)
+    health   — sprawdź połączenie z bazą danych
+    reset    — usun wszystkie dane z KnowledgeStore
+    run      — lokalnie ekstrahuj ramki z tekstu (bez DB)
 
-UÅ¼ycie:
+Użycie:
     python provenuance.py ingest --title "Dodawanie" --text "3 + 4 = 7."
-    python provenuance.py ingest --title "RozdziaÅ‚ 1" --file doc.md --source-type markdown
+    python provenuance.py ingest --title "Rozdział 1" --file doc.md --source-type markdown
     python provenuance.py extract --verbose 52e50486-04eb-4e5d-867f-1bb8440643f7
     python provenuance.py promote --facts abc123 def456
     python provenuance.py facts --status all
@@ -43,7 +43,7 @@ from pathlib import Path
 from typing import Any
 
 
-# â”€â”€ helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- helpers ---------------------------------------------------------------
 
 def _dsn() -> str:
     from config import Settings
@@ -55,11 +55,11 @@ def _read_text(args: argparse.Namespace) -> str:
         try:
             return open(args.file, encoding="utf-8").read()
         except OSError as e:
-            print(f"BÅ‚Ä…d odczytu pliku: {e}", file=sys.stderr)
+            print(f"Błąd odczytu pliku: {e}", file=sys.stderr)
             sys.exit(1)
     text = getattr(args, "text", None) or sys.stdin.read().strip()
     if not text:
-        print("BÅ‚Ä…d: podaj tekst przez --text, --file lub stdin", file=sys.stderr)
+        print("Błąd: podaj tekst przez --text, --file lub stdin", file=sys.stderr)
         sys.exit(1)
     return text
 
@@ -136,11 +136,11 @@ def _normalize_operation(value: Any) -> str | None:
         "mul": "mul",
         "*": "mul",
         "x": "mul",
-        "Ã—": "mul",
+        "×": "mul",
         "times": "mul",
         "div": "div",
         "/": "div",
-        "Ã·": "div",
+        "÷": "div",
         "divide": "div",
     }
     return mapping.get(op)
@@ -185,7 +185,7 @@ def _first_binding(answer: dict[str, str], preferred_var: str = "Z") -> str | No
     return str(first_value) if first_value is not None else None
 
 
-# â”€â”€ podkomendy async â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- podkomendy async ------------------------------------------------------
 
 async def _ingest(args: argparse.Namespace) -> None:
     from adapters.document_store.postgres_document_store import PostgresDocumentStore
@@ -224,7 +224,7 @@ async def _extract(args: argparse.Namespace) -> None:
     try:
         spans = await doc_store.list_spans(args.doc_id)
         if not spans:
-            print(f"Brak spanÃ³w dla dokumentu: {args.doc_id}", file=sys.stderr)
+            print(f"Brak spanów dla dokumentu: {args.doc_id}", file=sys.stderr)
             sys.exit(1)
 
         stanza_linker = StanzaEntityLinker(
@@ -265,7 +265,7 @@ async def _extract(args: argparse.Namespace) -> None:
     print(f"Spany:     {len(spans)}")
     print(f"Ramki:     {total_frames}")
     print(f"Fakty:     {total_facts}")
-    print(f"ReguÅ‚y:    {total_rules}")
+    print(f"Reguły:    {total_rules}")
 
 
 async def _promote(args: argparse.Namespace) -> None:
@@ -291,9 +291,9 @@ async def _promote(args: argparse.Namespace) -> None:
         await store.close()
 
     print(f"Promowane fakty:  {promoted_facts}")
-    print(f"Promowane reguÅ‚y: {promoted_rules}")
+    print(f"Promowane reguły: {promoted_rules}")
     for e in errors:
-        print(f"  BÅÄ„D: {e}", file=sys.stderr)
+        print(f"  BŁĄD: {e}", file=sys.stderr)
 
 
 async def _facts(args: argparse.Namespace) -> None:
@@ -306,11 +306,11 @@ async def _facts(args: argparse.Namespace) -> None:
         await store.close()
 
     if not facts:
-        print("Brak faktÃ³w.")
+        print("Brak faktów.")
         return
     print(f"Fakty ({args.status}): {len(facts)}")
     for f in facts:
-        print(f"  {f.fact_id[:8]}â€¦  {f.h} â€”[{f.r}]â†’ {f.t}"
+        print(f"  {f.fact_id[:8]}…  {f.h} —[{f.r}]→ {f.t}"
               f"  [{f.status.value}]  conf={f.confidence:.2f}")
 
 
@@ -324,12 +324,12 @@ async def _rules(args: argparse.Namespace) -> None:
         await store.close()
 
     if not rules:
-        print("Brak reguÅ‚.")
+        print("Brak reguł.")
         return
-    print(f"ReguÅ‚y ({args.status}): {len(rules)}")
+    print(f"Reguły ({args.status}): {len(rules)}")
     for r in rules:
-        body = ", ".join(r.body) if r.body else "âˆ…"
-        print(f"  {r.rule_id[:8]}â€¦  {r.head} :- {body}"
+        body = ", ".join(r.body) if r.body else "∅"
+        print(f"  {r.rule_id[:8]}…  {r.head} :- {body}"
               f"  [{r.status.value}]  prio={r.priority}")
 
 
@@ -413,7 +413,7 @@ async def _ner(args: argparse.Namespace) -> None:
 
     text = args.text or sys.stdin.read().strip()
     if not text:
-        print("BÅ‚Ä…d: podaj tekst przez --text lub stdin", file=sys.stderr)
+        print("Błąd: podaj tekst przez --text lub stdin", file=sys.stderr)
         sys.exit(1)
 
     s = Settings()
@@ -421,12 +421,12 @@ async def _ner(args: argparse.Namespace) -> None:
     try:
         output = extractor.call_backend(text)
     except Exception as exc:
-        print(f"BÅ‚Ä…d backendu NER: {exc}", file=sys.stderr)
+        print(f"Błąd backendu NER: {exc}", file=sys.stderr)
         sys.exit(1)
 
     print(f"Encje ({len(output.entities)}):")
     for e in output.entities:
-        print(f"  [{e.type}] {e.text!r} â†’ {e.canonical}  conf={e.confidence:.2f}")
+        print(f"  [{e.type}] {e.text!r} → {e.canonical}  conf={e.confidence:.2f}")
     frames = extractor.map_frames(output.frames, "ner-cli")
     if frames:
         print_frames(text, frames)
@@ -470,7 +470,7 @@ def _run(args: argparse.Namespace) -> None:
 
     text = args.text or sys.stdin.read().strip()
     if not text:
-        print("BÅ‚Ä…d: podaj tekst przez --text lub stdin", file=sys.stderr)
+        print("Błąd: podaj tekst przez --text lub stdin", file=sys.stderr)
         sys.exit(1)
 
     extractor = RuleBasedExtractor(verbose=not args.quiet)
@@ -480,11 +480,11 @@ def _run(args: argparse.Namespace) -> None:
     print(f"Znaleziono {len(frames)} ramek.")
 
 
-# â”€â”€ podkomendy stub â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- podkomendy stub -------------------------------------------------------
 
 
 
-# â”€â”€ main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# -- main ------------------------------------------------------------------
 
 async def _solve(args: argparse.Namespace) -> None:
     from adapters.math_problem_parser.llm_parser import LLMMathParser
@@ -515,7 +515,7 @@ async def _solve(args: argparse.Namespace) -> None:
 
     query = parsed.logic_query
     if parsed.problem_type == ProblemType.EXPR and query is None:
-        # W trybie KB-only wyraÅ¼enie musi daÄ‡ siÄ™ sprowadziÄ‡ do jednego atomu op(a,b,?Z).
+        # W trybie KB-only wyrażenie musi dać się sprowadzić do jednego atomu op(a,b,?Z).
         op = parsed.operation_hint
         nums = parsed.extracted_numbers
         if op and len(nums) >= 2:
@@ -740,15 +740,15 @@ async def _prove(args: argparse.Namespace) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="provenuance",
-        description="ProveNuance â€” CLI (lokalny, bez serwera API)",
+        description="ProveNuance — CLI (lokalny, bez serwera API)",
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
     # ingest
-    p = sub.add_parser("ingest", help="WyÅ›lij dokument do DocumentStore")
-    p.add_argument("--title", "-T", required=True, help="TytuÅ‚ dokumentu")
-    p.add_argument("--text", "-t", help="TreÅ›Ä‡ dokumentu")
-    p.add_argument("--file", "-f", help="ÅšcieÅ¼ka do pliku z treÅ›ciÄ…")
+    p = sub.add_parser("ingest", help="Wyślij dokument do DocumentStore")
+    p.add_argument("--title", "-T", required=True, help="Tytuł dokumentu")
+    p.add_argument("--text", "-t", help="Treść dokumentu")
+    p.add_argument("--file", "-f", help="Ścieżka do pliku z treścią")
     p.add_argument("--source-type", default="text",
                    choices=["text", "markdown", "pdf"])
 
@@ -756,12 +756,12 @@ def main() -> None:
     p = sub.add_parser("extract", help="Ekstrahuj ramki z dokumentu")
     p.add_argument("doc_id", help="UUID dokumentu")
     p.add_argument("--verbose", "-v", action="store_true",
-                   help="WyÅ›wietl znalezione ramki")
+                   help="Wyświetl znalezione ramki")
     p.add_argument("--auto-promote", action="store_true",
-                   help="Promuj fakty/reguÅ‚y od razu")
+                   help="Promuj fakty/reguły od razu")
 
     # promote
-    p = sub.add_parser("promote", help="Promuj fakty i/lub reguÅ‚y do 'asserted'")
+    p = sub.add_parser("promote", help="Promuj fakty i/lub reguły do 'asserted'")
     p.add_argument("--facts", nargs="*", default=[], metavar="ID")
     p.add_argument("--rules", nargs="*", default=[], metavar="ID")
     p.add_argument("--reason", default="manual promotion")
@@ -773,7 +773,7 @@ def main() -> None:
     p.add_argument("--limit", type=int, default=200, metavar="N")
 
     # rules
-    p = sub.add_parser("rules", help="Listuj reguÅ‚y z KnowledgeStore")
+    p = sub.add_parser("rules", help="Listuj reguły z KnowledgeStore")
     p.add_argument("--status", default="asserted",
                    choices=["hypothesis", "asserted", "all"])
     p.add_argument("--limit", type=int, default=200, metavar="N")
@@ -805,19 +805,19 @@ def main() -> None:
     p.add_argument("--dry-run", action="store_true")
 
     # ner
-    p = sub.add_parser("ner", help="Uruchom NER na tekÅ›cie (wymaga backendu NER)")
+    p = sub.add_parser("ner", help="Uruchom NER na tekście (wymaga backendu NER)")
     p.add_argument("--text", "-t", help="Tekst do analizy (lub stdin)")
 
     # solve
     p = sub.add_parser("solve", help="Rozwiaz zadanie matematyczne")
-    p.add_argument("--text", "-t", help="TreÅ›Ä‡ zadania (lub stdin)")
+    p.add_argument("--text", "-t", help="Treść zadania (lub stdin)")
 
     # prove
     p = sub.add_parser("prove", help="Pobierz zapisany dowod po proof_id")
     p.add_argument("proof_id", help="UUID dowodu")
 
     # health
-    sub.add_parser("health", help="SprawdÅº poÅ‚Ä…czenie z bazÄ… danych")
+    sub.add_parser("health", help="Sprawdź połączenie z bazą danych")
 
     # reset
     sub.add_parser("reset", help="Usun wszystkie dane z KnowledgeStore (nieodwracalne)")
@@ -826,7 +826,7 @@ def main() -> None:
     p = sub.add_parser("run", help="Lokalnie ekstrahuj ramki z tekstu (bez DB)")
     p.add_argument("--text", "-t", help="Tekst do analizy (lub stdin)")
     p.add_argument("--quiet", "-q", action="store_true",
-                   help="Tylko liczba ramek, bez szczegÃ³Å‚Ã³w")
+                   help="Tylko liczba ramek, bez szczegółów")
 
     args = parser.parse_args()
 

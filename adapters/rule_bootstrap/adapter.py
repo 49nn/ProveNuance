@@ -33,6 +33,7 @@ _INT_RE = re.compile(r"^-?\d+$")
 _FLOAT_RE = re.compile(r"^-?\d+\.\d+$")
 _ATOM_RE = re.compile(r"^[A-Za-z_]\w*\([^)]*\)$")
 _VAR_RE = re.compile(r"^[A-Z][A-Za-z0-9_]*$|^\?[A-Za-z0-9_]+$")
+_VAR_TOKEN_RE = re.compile(r"\b([A-Z][A-Za-z0-9_]*|\?[A-Za-z0-9_]+)\b")
 
 
 @dataclass(frozen=True)
@@ -83,24 +84,26 @@ def _term_type(term: str) -> str:
     return "symbol"
 
 
+def _parse_atom(atom: str) -> tuple[str, list[str]] | None:
+    """
+    Parses flat Prolog-like atom, e.g. "add(2,3,5)" -> ("add", ["2","3","5"]).
+    Returns None for non-atoms.
+    """
+    m = _ATOM_RE.match(atom.strip())
+    if not m:
+        return None
+    functor = atom[: atom.find("(")].strip()
+    args_raw = atom[atom.find("(") + 1 : atom.rfind(")")].strip()
+    args = [a.strip() for a in args_raw.split(",")] if args_raw else []
+    return functor, args
+
+
 def _atom(rel: str, src: str, dst: str) -> str:
     return f"{rel}({src},{dst})"
 
 
 def _extract_vars(atom: str) -> set[str]:
-    left = atom.find("(")
-    right = atom.rfind(")")
-    if left <= 0 or right <= left:
-        return set()
-    raw_args = atom[left + 1 : right].strip()
-    if not raw_args:
-        return set()
-    out: set[str] = set()
-    for arg in raw_args.split(","):
-        tok = arg.strip()
-        if _VAR_RE.match(tok):
-            out.add(tok)
-    return out
+    return {m.group(1) for m in _VAR_TOKEN_RE.finditer(atom)}
 
 
 def _is_safe_horn_rule(head: str, body: Iterable[str], max_body_literals: int) -> bool:
@@ -389,6 +392,38 @@ def _sample_grounding_text(head_rel: str, g: Optional[_Grounding]) -> Optional[s
     return f"{_atom(head_rel, g.x, g.z)} :- {body}"
 
 
+def _candidate_reasons(
+    head_atom: str,
+    body_atoms: tuple[str, ...],
+    coverage: int,
+    support: int,
+    confidence: float,
+    lift: float,
+    violations: int,
+    corruption: int,
+    local_cwa: int,
+    config: BootstrapConfig,
+) -> list[str]:
+    reasons: list[str] = []
+    if not _is_safe_horn_rule(head_atom, body_atoms, config.max_body_literals):
+        reasons.append("unsafe_horn")
+    if coverage < config.min_coverage:
+        reasons.append("low_coverage")
+    if support < config.min_support:
+        reasons.append("low_support")
+    if confidence < config.min_confidence:
+        reasons.append("low_confidence")
+    if lift < config.min_lift:
+        reasons.append("low_lift")
+    if violations > config.max_violations:
+        reasons.append("constraint_violations")
+    if corruption > config.max_corruption_hits:
+        reasons.append("corruption_hits")
+    if local_cwa > config.max_local_cwa_negatives:
+        reasons.append("local_cwa_negatives")
+    return reasons
+
+
 def _score_candidate(
     head_rel: str,
     pattern: _PatternSpec,
@@ -449,23 +484,18 @@ def _score_candidate(
     )
     head_atom = _atom(head_rel, "X", "Z")
 
-    reasons: list[str] = []
-    if not _is_safe_horn_rule(head_atom, body_atoms, config.max_body_literals):
-        reasons.append("unsafe_horn")
-    if coverage < config.min_coverage:
-        reasons.append("low_coverage")
-    if support < config.min_support:
-        reasons.append("low_support")
-    if confidence < config.min_confidence:
-        reasons.append("low_confidence")
-    if lift < config.min_lift:
-        reasons.append("low_lift")
-    if violations > config.max_violations:
-        reasons.append("constraint_violations")
-    if corruption > config.max_corruption_hits:
-        reasons.append("corruption_hits")
-    if local_cwa > config.max_local_cwa_negatives:
-        reasons.append("local_cwa_negatives")
+    reasons = _candidate_reasons(
+        head_atom=head_atom,
+        body_atoms=body_atoms,
+        coverage=coverage,
+        support=support,
+        confidence=confidence,
+        lift=lift,
+        violations=violations,
+        corruption=corruption,
+        local_cwa=local_cwa,
+        config=config,
+    )
 
     provenance = sorted(
         {
@@ -496,6 +526,126 @@ def _score_candidate(
         rejection_reasons=reasons,
         provenance=provenance,
     )
+
+
+def _mine_structural_eq_bridge_candidates(
+    facts: list[Fact],
+    relation_whitelist: set[str],
+    pairs_by_rel: dict[str, set[tuple[str, str]]],
+    tails_by_rel_head: dict[str, dict[str, set[str]]],
+    base_rates: dict[str, float],
+    config: BootstrapConfig,
+) -> list[CandidateRule]:
+    """
+    Learns bridge rules for math-shaped data:
+      eq(op(X,Y),Z) :- instance_of(op(X,Y,Z),op)
+
+    This complements path mining when the KG contains mostly eq + instance_of facts
+    and has no 2-hop relational paths.
+    """
+    if "eq" not in relation_whitelist or "instance_of" not in relation_whitelist:
+        return []
+
+    eq_pairs = pairs_by_rel.get("eq", set())
+    if not eq_pairs:
+        return []
+
+    coverage_by_op: Counter[str] = Counter()
+    support_by_op: Counter[str] = Counter()
+    predicted_pairs_by_op: DefaultDict[str, set[tuple[str, str]]] = defaultdict(set)
+    provenance_by_op: DefaultDict[str, set[str]] = defaultdict(set)
+    sample_by_op: dict[str, str] = {}
+
+    for fact in facts:
+        if fact.status != FactStatus.ASSERTED or fact.r != "instance_of":
+            continue
+        parsed = _parse_atom(fact.h)
+        if parsed is None:
+            continue
+        op, args = parsed
+        if len(args) != 3:
+            continue
+        if fact.t.strip() != op:
+            continue
+
+        a, b, c = args
+        expr = f"{op}({a},{b})"
+        pair = (expr, c)
+
+        coverage_by_op[op] += 1
+        predicted_pairs_by_op[op].add(pair)
+        for sid in fact.provenance:
+            if sid:
+                provenance_by_op[op].add(sid)
+
+        if pair in eq_pairs:
+            support_by_op[op] += 1
+            sample_by_op.setdefault(
+                op,
+                f"eq({expr},{c}) :- instance_of({op}({a},{b},{c}),{op})",
+            )
+
+    out: list[CandidateRule] = []
+    for op, coverage in coverage_by_op.items():
+        support = int(support_by_op.get(op, 0))
+        confidence = 0.0 if coverage == 0 else support / float(coverage)
+        base_rate = float(base_rates.get("eq", 0.0))
+        if base_rate == 0.0:
+            lift = math.inf if confidence > 0.0 else 0.0
+        else:
+            lift = confidence / base_rate
+
+        head_atom = f"eq({op}(X,Y),Z)"
+        body_atom = f"instance_of({op}(X,Y,Z),{op})"
+        body_atoms = (body_atom,)
+
+        predicted_new_pairs = {
+            p for p in predicted_pairs_by_op[op] if p not in eq_pairs
+        }
+        violations = _violations_after_application(
+            head_rel="eq",
+            predicted_new_pairs=predicted_new_pairs,
+            tails_by_rel_head=tails_by_rel_head,
+            functional_relations=config.functional_relations,
+        )
+
+        corruption = 0
+        local_cwa = 0
+        reasons = _candidate_reasons(
+            head_atom=head_atom,
+            body_atoms=body_atoms,
+            coverage=coverage,
+            support=support,
+            confidence=confidence,
+            lift=lift,
+            violations=violations,
+            corruption=corruption,
+            local_cwa=local_cwa,
+            config=config,
+        )
+
+        out.append(
+            CandidateRule(
+                head_relation="eq",
+                body_relations=("instance_of",),
+                head=head_atom,
+                body=body_atoms,
+                coverage=coverage,
+                support=support,
+                confidence=confidence,
+                lift=lift,
+                base_rate=base_rate,
+                corruption_hits=corruption,
+                local_cwa_negatives=local_cwa,
+                violations=violations,
+                sample_grounding=sample_by_op.get(op),
+                promotable=len(reasons) == 0,
+                rejection_reasons=reasons,
+                provenance=sorted(provenance_by_op[op])[:40],
+            )
+        )
+
+    return out
 
 
 class RuleBootstrapper(RuleBootstrap):
@@ -578,6 +728,28 @@ class RuleBootstrapper(RuleBootstrap):
                     base_rate=base_rates.get(head_rel, 0.0),
                     terms_by_type=terms_by_type,
                 )
+                key = (candidate.head, candidate.body)
+                prev = out_candidates.get(key)
+                if prev is None:
+                    out_candidates[key] = candidate
+                    continue
+                prev_score = (prev.confidence, prev.support, prev.lift)
+                now_score = (candidate.confidence, candidate.support, candidate.lift)
+                if now_score > prev_score:
+                    out_candidates[key] = candidate
+
+        # Fallback family for math-shaped asserted facts (eq + instance_of).
+        structural_candidates = _mine_structural_eq_bridge_candidates(
+            facts=asserted,
+            relation_whitelist=self.config.relation_whitelist,
+            pairs_by_rel=pairs_by_rel,
+            tails_by_rel_head=tails_by_rel_head,
+            base_rates=base_rates,
+            config=self.config,
+        )
+        if structural_candidates:
+            pattern_count += len(structural_candidates)
+            for candidate in structural_candidates:
                 key = (candidate.head, candidate.body)
                 prev = out_candidates.get(key)
                 if prev is None:
