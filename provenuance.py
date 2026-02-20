@@ -211,8 +211,9 @@ async def _ingest(args: argparse.Namespace) -> None:
 
 async def _extract(args: argparse.Namespace) -> None:
     from adapters.document_store.postgres_document_store import PostgresDocumentStore
+    from adapters.entity_linker.stanza_linker import StanzaConfig, StanzaEntityLinker
     from adapters.frame_extractor._printer import print_frames
-    from adapters.frame_extractor.rule_based_extractor import RuleBasedExtractor
+    from adapters.frame_extractor.stanza_aware_extractor import StanzaAwareExtractor
     from adapters.frame_mapper.math_grade1to3_mapper import MathGrade1to3Mapper
     from adapters.knowledge_store.postgres_knowledge_store import PostgresKnowledgeStore
     from contracts import Provenance
@@ -226,7 +227,10 @@ async def _extract(args: argparse.Namespace) -> None:
             print(f"Brak spanÃ³w dla dokumentu: {args.doc_id}", file=sys.stderr)
             sys.exit(1)
 
-        extractor = RuleBasedExtractor()
+        stanza_linker = StanzaEntityLinker(
+            config=StanzaConfig(lang="pl", processors="tokenize,pos,lemma,depparse,ner")
+        )
+        extractor = StanzaAwareExtractor(linker=stanza_linker)
         mapper    = MathGrade1to3Mapper()
         total_frames = total_facts = total_rules = 0
 
@@ -243,15 +247,15 @@ async def _extract(args: argparse.Namespace) -> None:
                     span_ids=[span.span_id], doc_ref=args.doc_id
                 ))
                 for fact in mapping.facts:
-                    await kn_store.upsert_fact(fact)
+                    fact_ref = await kn_store.upsert_fact(fact)
                     total_facts += 1
                     if args.auto_promote:
-                        await kn_store.promote_fact(fact.fact_id, reason="auto_promote")
+                        await kn_store.promote_fact(fact_ref.fact_id, reason="auto_promote")
                 for rule in mapping.rules:
-                    await kn_store.upsert_rule(rule)
+                    rule_ref = await kn_store.upsert_rule(rule)
                     total_rules += 1
                     if args.auto_promote:
-                        await kn_store.promote_rule(rule.rule_id, reason="auto_promote")
+                        await kn_store.promote_rule(rule_ref.rule_id, reason="auto_promote")
             total_frames += len(frames)
     finally:
         await doc_store.close()

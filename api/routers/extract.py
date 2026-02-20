@@ -74,17 +74,17 @@ async def extract_frames(
 
             # Zapisz fakty
             for fact in mapping.facts:
-                await knowledge_store.upsert_fact(fact)
+                fact_ref = await knowledge_store.upsert_fact(fact)
                 facts_this_span += 1
                 if body.auto_promote:
-                    await knowledge_store.promote_fact(fact.fact_id, reason="auto_promote")
+                    await knowledge_store.promote_fact(fact_ref.fact_id, reason="auto_promote")
 
             # Zapisz reguły
             for rule in mapping.rules:
-                await knowledge_store.upsert_rule(rule)
+                rule_ref = await knowledge_store.upsert_rule(rule)
                 rules_this_span += 1
                 if body.auto_promote:
-                    await knowledge_store.promote_rule(rule.rule_id, reason="auto_promote")
+                    await knowledge_store.promote_rule(rule_ref.rule_id, reason="auto_promote")
 
             # Zbierz mapowania do odpowiedzi (ostatnie jest widoczne — wystarczy dla MVP)
             mapping_combined = mapping

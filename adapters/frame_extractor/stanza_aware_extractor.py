@@ -18,6 +18,7 @@ Kroki:
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
@@ -100,6 +101,8 @@ _SUBJ_LEMMA_MAP: dict[str, str] = {
     "dzielenie": "division",   "dzielić": "division",
 }
 
+_INLINE_ARITH_RE = re.compile(r"(\d+)\s*([+\-×·*/÷])\s*(\d+)\s*=\s*(\d+)")
+
 
 # ── Wewnętrzny model kandydata ────────────────────────────────────────────────
 
@@ -180,6 +183,23 @@ class StanzaAwareExtractor:
                 frame = self._step_c_fill_slots(cand, frame_type)
                 if frame is not None:
                     frames.append(frame)
+
+        # Fallback: extract simple arithmetic equations directly from text.
+        # This handles spans with dense answer lists where POS tags are noisy.
+        seen_arith = {
+            (
+                f.operation,
+                tuple(f.operands),
+                f.result,
+            )
+            for f in frames
+            if isinstance(f, ArithExampleFrame)
+        }
+        for frame in _extract_inline_arith_frames_from_text(span.surface_text, span.span_id):
+            sig = (frame.operation, tuple(frame.operands), frame.result)
+            if sig not in seen_arith:
+                frames.append(frame)
+                seen_arith.add(sig)
         if self._verbose:
             print_frames(span.surface_text, frames)
         return frames
@@ -597,3 +617,37 @@ class StanzaAwareExtractor:
                 ))
 
         return issues
+
+
+def _extract_inline_arith_frames_from_text(text: str, span_id: str) -> list[ArithExampleFrame]:
+    """Extracts all simple equations `a op b = c` found in text lines."""
+    frames: list[ArithExampleFrame] = []
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        for m in _INLINE_ARITH_RE.finditer(line):
+            # Avoid matching the middle part of a chained expression like: 5 + 1 + 2 = 8
+            prefix = line[:m.start()].rstrip()
+            if prefix and prefix[-1] in "+-*/×÷·":
+                continue
+            suffix = line[m.end():].lstrip()
+            if suffix and suffix[0] in "+-*/×÷·":
+                continue
+
+            a = int(m.group(1))
+            op = m.group(2)
+            b = int(m.group(3))
+            r = int(m.group(4))
+            op_norm = _OP_SYMBOL_MAP.get(op)
+            if op_norm is None:
+                continue
+            frames.append(
+                ArithExampleFrame(
+                    operation=op_norm,
+                    operands=[a, b],
+                    result=r,
+                    source_span_id=span_id,
+                )
+            )
+    return frames
