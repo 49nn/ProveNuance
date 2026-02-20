@@ -1,0 +1,17 @@
+# Python bytecode / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+
+# Local pytest temp/cache folders seen in this repo
+pytest-cache-files-*/
+

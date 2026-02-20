@@ -333,6 +333,79 @@ async def _rules(args: argparse.Namespace) -> None:
               f"  [{r.status.value}]  prio={r.priority}")
 
 
+async def _bootstrap_rules(args: argparse.Namespace) -> None:
+    import math
+
+    from adapters.knowledge_store.postgres_knowledge_store import PostgresKnowledgeStore
+    from adapters.rule_bootstrap import RuleBootstrapper
+    from ports.rule_bootstrap import BootstrapConfig, DEFAULT_RELATION_WHITELIST
+
+    relations = set(args.relations) if args.relations else set(DEFAULT_RELATION_WHITELIST)
+    functional = set(args.functional_relations or [])
+
+    cfg = BootstrapConfig(
+        relation_whitelist=relations,
+        max_body_literals=args.max_body,
+        min_coverage=args.min_coverage,
+        min_support=args.min_support,
+        min_confidence=args.min_confidence,
+        min_lift=args.min_lift,
+        max_violations=args.max_violations,
+        max_corruption_hits=args.max_corruption_hits,
+        max_local_cwa_negatives=args.max_local_cwa_negatives,
+        corruption_samples=args.corruption_samples,
+        use_local_cwa=not args.no_local_cwa,
+        functional_relations=functional,
+        max_groundings_per_pattern=args.max_groundings_per_pattern,
+        top_k=args.top_k,
+        priority=args.priority,
+        store_candidates=not args.no_store_candidates,
+        promote=not args.no_promote,
+        promotion_reason=args.reason,
+        dry_run=args.dry_run,
+    )
+
+    store = await PostgresKnowledgeStore.create(_dsn())
+    try:
+        bootstrapper = RuleBootstrapper(cfg)
+        summary = await bootstrapper.bootstrap(store)
+    finally:
+        await store.close()
+
+    print(f"asserted_facts: {summary.asserted_fact_count}")
+    print(f"relations:      {summary.relation_count}")
+    print(f"patterns:       {summary.pattern_count}")
+    print(f"candidates:     {summary.candidate_count}")
+    print(f"stored_new:     {summary.stored_created}")
+    print(f"stored_update:  {summary.stored_updated}")
+    print(f"promoted:       {summary.promoted}")
+    if args.dry_run:
+        print("mode:           dry-run (no DB writes)")
+
+    if not summary.candidates:
+        print("Brak kandydatow reguly.")
+        return
+
+    show = min(args.show, len(summary.candidates))
+    print(f"\nTop {show} candidate rules:")
+    for idx, cand in enumerate(summary.candidates[:show], 1):
+        body = ", ".join(cand.body)
+        lift = "inf" if math.isinf(cand.lift) else f"{cand.lift:.3f}"
+        print(f"{idx:02d}. {cand.head} :- {body}")
+        print(
+            f"    support={cand.support}/{cand.coverage} "
+            f"confidence={cand.confidence:.3f} lift={lift} "
+            f"viol={cand.violations} corr={cand.corruption_hits} "
+            f"cwa={cand.local_cwa_negatives} promotable={cand.promotable}"
+        )
+        if cand.rule_id:
+            print(f"    rule_id={cand.rule_id} promoted={cand.promoted}")
+        if cand.sample_grounding:
+            print(f"    sample={cand.sample_grounding}")
+        if cand.rejection_reasons:
+            print(f"    rejected_by={','.join(cand.rejection_reasons)}")
+
+
 async def _ner(args: argparse.Namespace) -> None:
     from adapters.frame_extractor._printer import print_frames
     from adapters.frame_extractor.llm_extractor import LLMFrameExtractor
@@ -705,6 +778,32 @@ def main() -> None:
                    choices=["hypothesis", "asserted", "all"])
     p.add_argument("--limit", type=int, default=200, metavar="N")
 
+    # bootstrap-rules
+    p = sub.add_parser(
+        "bootstrap-rules",
+        help="Ucz reguly z asserted facts i opcjonalnie promuj do asserted",
+    )
+    p.add_argument("--relations", nargs="*", default=[], metavar="REL")
+    p.add_argument("--max-body", type=int, default=2, choices=[2, 3])
+    p.add_argument("--min-coverage", type=int, default=3)
+    p.add_argument("--min-support", type=int, default=3)
+    p.add_argument("--min-confidence", type=float, default=0.95)
+    p.add_argument("--min-lift", type=float, default=1.0)
+    p.add_argument("--max-violations", type=int, default=0)
+    p.add_argument("--max-corruption-hits", type=int, default=0)
+    p.add_argument("--max-local-cwa-negatives", type=int, default=0)
+    p.add_argument("--functional-relations", nargs="*", default=["eq"], metavar="REL")
+    p.add_argument("--corruption-samples", type=int, default=2)
+    p.add_argument("--max-groundings-per-pattern", type=int, default=5000)
+    p.add_argument("--top-k", type=int, default=100)
+    p.add_argument("--show", type=int, default=20)
+    p.add_argument("--priority", type=int, default=20)
+    p.add_argument("--reason", default="rule_bootstrap")
+    p.add_argument("--no-local-cwa", action="store_true")
+    p.add_argument("--no-promote", action="store_true")
+    p.add_argument("--no-store-candidates", action="store_true")
+    p.add_argument("--dry-run", action="store_true")
+
     # ner
     p = sub.add_parser("ner", help="Uruchom NER na tekÅ›cie (wymaga backendu NER)")
     p.add_argument("--text", "-t", help="Tekst do analizy (lub stdin)")
@@ -737,6 +836,7 @@ def main() -> None:
         "promote": _promote,
         "facts":   _facts,
         "rules":   _rules,
+        "bootstrap-rules": _bootstrap_rules,
         "ner":     _ner,
         "health":  _health,
         "reset":   _reset,
