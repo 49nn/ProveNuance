@@ -379,6 +379,10 @@ def main() -> None:
         asyncio.run(async_cmds[args.command](args))
     elif args.command == "run":
         _run(args)
+    elif args.command == "solve":
+        _solve(args)
+    elif args.command == "prove":
+        _prove(args)
 
 
 if __name__ == "__main__":
