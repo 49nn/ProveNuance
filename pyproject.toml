@@ -27,3 +27,6 @@ include = ["adapters*", "ports*", "api*"]
 
 [tool.setuptools]
 py-modules = ["provenuance", "contracts", "config"]
+
+[tool.pytest.ini_options]
+cache_dir = ".cache/pytest"

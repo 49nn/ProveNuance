@@ -204,5 +204,224 @@
       }
     ],
     "duration_ms": 19.054300035350025
+  },
+  "120648da-4404-43c6-a2e1-e3cc4d453b58": {
+    "proof_id": "120648da-4404-43c6-a2e1-e3cc4d453b58",
+    "created_at": "2026-02-21T16:02:25.954810+00:00",
+    "kind": "expr",
+    "original_text": "2+1+3",
+    "query": "add(2,1,?Z1)",
+    "result": "3",
+    "short_proof": "Znaleziono odpowiedz przez reasoner: 3.",
+    "steps": [
+      "add(2,1,?Z1)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "b3da7921-d7db-4f52-8745-18c73c05097f",
+        "substitution": {
+          "?Z1": "3"
+        },
+        "conclusion": "add(2,1,3)",
+        "span_citations": [
+          "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "b3da7921-d7db-4f52-8745-18c73c05097f"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "4b5878c5-ffbe-472d-b090-c4e9d5aa68c8",
+        "doc_id": "ef3d37e5-e85a-4eaf-af62-5bcf1688505a",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      }
+    ],
+    "duration_ms": 11.530899908393621
+  },
+  "37affc40-8f29-4f13-a3a0-def6df1700d9": {
+    "proof_id": "37affc40-8f29-4f13-a3a0-def6df1700d9",
+    "created_at": "2026-02-21T16:09:44.065149+00:00",
+    "kind": "expr",
+    "original_text": "2+1+3",
+    "query": "add(2,1,?Z1)",
+    "result": "3",
+    "short_proof": "Znaleziono odpowiedz przez reasoner: 3.",
+    "steps": [
+      "add(2,1,?Z1)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "eb298d99-c945-4140-9cbc-82bf7d191a7b",
+        "substitution": {
+          "?Z1": "3"
+        },
+        "conclusion": "add(2,1,3)",
+        "span_citations": [
+          "92c44019-af52-433d-a01f-6419ef594d3e"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "eb298d99-c945-4140-9cbc-82bf7d191a7b"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "92c44019-af52-433d-a01f-6419ef594d3e",
+        "doc_id": "e831f5bd-aac3-4490-be61-327795448cc8",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      }
+    ],
+    "duration_ms": 9.806100046262145
+  },
+  "e75b6452-1dfd-4131-9350-176e78a48dcf": {
+    "proof_id": "e75b6452-1dfd-4131-9350-176e78a48dcf",
+    "created_at": "2026-02-21T16:12:56.097801+00:00",
+    "kind": "expr",
+    "original_text": "2+1+3",
+    "query": "add(2,1,?Z) -> add(3,3,?Z)",
+    "result": "6",
+    "short_proof": "Wykonano 2 kroki reasonera. Wynik: 6.",
+    "steps": [
+      "add(2,1,?Z)",
+      "add(3,3,?Z)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "eb298d99-c945-4140-9cbc-82bf7d191a7b",
+        "substitution": {
+          "?Z": "3"
+        },
+        "conclusion": "add(2,1,3)",
+        "span_citations": [
+          "92c44019-af52-433d-a01f-6419ef594d3e"
+        ]
+      },
+      {
+        "step_id": 2,
+        "rule_or_fact_id": "b51b70ae-1282-458c-8cde-c53b1105df6b",
+        "substitution": {
+          "?Z": "6"
+        },
+        "conclusion": "add(3,3,6)",
+        "span_citations": [
+          "92c44019-af52-433d-a01f-6419ef594d3e"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "b51b70ae-1282-458c-8cde-c53b1105df6b",
+      "eb298d99-c945-4140-9cbc-82bf7d191a7b"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "92c44019-af52-433d-a01f-6419ef594d3e",
+        "doc_id": "e831f5bd-aac3-4490-be61-327795448cc8",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      }
+    ],
+    "duration_ms": 15.720599913038313
+  },
+  "7b7bbbc4-a790-4287-aa88-52362e735bad": {
+    "proof_id": "7b7bbbc4-a790-4287-aa88-52362e735bad",
+    "created_at": "2026-02-21T16:13:53.910686+00:00",
+    "kind": "expr",
+    "original_text": "1+1+5",
+    "query": "add(1,1,?Z) -> add(2,5,?Z)",
+    "result": "7",
+    "short_proof": "Wykonano 2 kroki reasonera. Wynik: 7.",
+    "steps": [
+      "add(1,1,?Z)",
+      "add(2,5,?Z)"
+    ],
+    "proof_steps": [
+      {
+        "step_id": 1,
+        "rule_or_fact_id": "fc9613c6-feae-4cce-9885-a4ca1c5c57fd",
+        "substitution": {
+          "?Z": "2"
+        },
+        "conclusion": "add(1,1,2)",
+        "span_citations": [
+          "92c44019-af52-433d-a01f-6419ef594d3e"
+        ]
+      },
+      {
+        "step_id": 2,
+        "rule_or_fact_id": "d2eda87c-11eb-4598-a694-d2dca3bd6521",
+        "substitution": {
+          "?Z": "7"
+        },
+        "conclusion": "add(2,5,7)",
+        "span_citations": [
+          "a18dc87c-e2d6-4b75-a469-8d70637fc862"
+        ]
+      }
+    ],
+    "used_fact_ids": [
+      "d2eda87c-11eb-4598-a694-d2dca3bd6521",
+      "fc9613c6-feae-4cce-9885-a4ca1c5c57fd"
+    ],
+    "used_rule_ids": [],
+    "citations": [
+      {
+        "span_id": "92c44019-af52-433d-a01f-6419ef594d3e",
+        "doc_id": "e831f5bd-aac3-4490-be61-327795448cc8",
+        "version": 1,
+        "surface_text": "3) Proste przykłady\n1 + 1 = 2\n2 + 1 = 3\n3 + 3 = 6\n5 + 2 = 7\n8 + 1 = 9\n9 + 0 = 9",
+        "start_char": 712,
+        "end_char": 814,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "3) Proste przykłady"
+        }
+      },
+      {
+        "span_id": "a18dc87c-e2d6-4b75-a469-8d70637fc862",
+        "doc_id": "e831f5bd-aac3-4490-be61-327795448cc8",
+        "version": 1,
+        "surface_text": "5) Zadania tekstowe – odpowiedzi\nAla ma 3 kredki i dostała 2:\n3 + 2 = 5 (Ala ma 5 kredek)\nW pudełku są 4 jabłka, mama dołożyła 3:\n4 + 3 = 7 (Jest 7 jabłek)\nNa drzewie były 2 ptaki, przyleciało 5:\n2 + 5 = 7 (Jest 7 ptaków)\nBartek ma 6 klocków, dostał 1:\n6 + 1 = 7 (Bartek ma 7 klocków)\nW koszyku było 0 gruszek, tata włożył 7:\n0 + 7 = 7 (Jest 7 gruszek)",
+        "start_char": 3443,
+        "end_char": 3880,
+        "span_type": "section",
+        "metadata": {
+          "level": 2,
+          "heading": "5) Zadania tekstowe – odpowiedzi"
+        }
+      }
+    ],
+    "duration_ms": 12.56519986782223
   }
 }

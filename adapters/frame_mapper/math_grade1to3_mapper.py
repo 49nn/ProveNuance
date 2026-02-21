@@ -17,6 +17,8 @@ Mapowania:
 """
 from __future__ import annotations
 
+from typing import Any
+
 from contracts import (
     ConditionFrame,
     DefinitionFrame,
@@ -76,6 +78,24 @@ def _op_functor(operation: str) -> str:
     return operation  # już jest krótką formą: add, sub, mul, div
 
 
+def _compute_intermediate(functor: str, left: Any, right: Any) -> int | None:
+    if not isinstance(left, int) or not isinstance(right, int):
+        return None
+    if functor == "add":
+        return left + right
+    if functor == "sub":
+        return left - right
+    if functor == "mul":
+        return left * right
+    if functor == "div":
+        if right == 0:
+            return None
+        if left % right != 0:
+            return None
+        return left // right
+    return None
+
+
 class MathGrade1to3Mapper:
     """Deterministyczny mapper ramek na fakty i reguły KnowledgeStore."""
 
@@ -110,30 +130,57 @@ class MathGrade1to3Mapper:
 
     def _map_arith_example(self, frame, span_ids: list[str]) -> MappingResult:
         functor = _op_functor(frame.operation)
-        a, b = frame.operands[0], frame.operands[1]
-        r = frame.result
+        operands = list(frame.operands)
+        if len(operands) < 2:
+            return MappingResult(
+                facts=[],
+                rules=[],
+                warnings=["Brak wystarczajacej liczby operandow w ARITH_EXAMPLE."],
+            )
 
-        # Ground atom: add(3,4,7)
-        atom = f"{functor}({a},{b},{r})"
+        facts: list[Fact] = []
+        current: Any = operands[0]
+        final_result: Any = frame.result
 
-        fact = Fact(
-            h=f"{functor}({a},{b})",
-            r="eq",
-            t=str(r),
-            status=FactStatus.HYPOTHESIS,
-            provenance=span_ids,
-            confidence=1.0,
-        )
-        # Dodatkowy fakt jako surowy atom (do unifikacji)
-        atom_fact = Fact(
-            h=atom,
-            r="instance_of",
-            t=functor,
-            status=FactStatus.HYPOTHESIS,
-            provenance=span_ids,
-            confidence=1.0,
-        )
-        return MappingResult(facts=[fact, atom_fact], rules=[])
+        for idx, right in enumerate(operands[1:], start=1):
+            is_last = idx == len(operands) - 1
+            if is_last:
+                step_result: Any = final_result
+            else:
+                step_result = _compute_intermediate(functor, current, right)
+                if step_result is None:
+                    return MappingResult(
+                        facts=[],
+                        rules=[],
+                        warnings=[
+                            "Nie mozna wyznaczyc wartosci posredniej dla lancucha arytmetycznego."
+                        ],
+                    )
+
+            atom = f"{functor}({current},{right},{step_result})"
+            facts.append(
+                Fact(
+                    h=f"{functor}({current},{right})",
+                    r="eq",
+                    t=str(step_result),
+                    status=FactStatus.HYPOTHESIS,
+                    provenance=span_ids,
+                    confidence=1.0,
+                )
+            )
+            facts.append(
+                Fact(
+                    h=atom,
+                    r="instance_of",
+                    t=functor,
+                    status=FactStatus.HYPOTHESIS,
+                    provenance=span_ids,
+                    confidence=1.0,
+                )
+            )
+            current = step_result
+
+        return MappingResult(facts=facts, rules=[])
 
     def _map_property(self, frame, span_ids: list[str]) -> MappingResult:
         subject = frame.subject        # "addition", "multiplication", …

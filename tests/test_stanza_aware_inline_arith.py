@@ -18,8 +18,23 @@ def test_extract_inline_arith_from_answer_list_lines():
     assert ("add", 3, 5, 8) in triples
 
 
-def test_extract_inline_arith_ignores_chained_expression_middle_match():
+def test_extract_inline_arith_parses_chained_expression():
     text = "5 + 1 + 2 = 8"
     frames = _extract_inline_arith_frames_from_text(text, span_id="s1")
 
-    assert frames == []
+    assert len(frames) == 1
+    frame = frames[0]
+    assert frame.operation == "add"
+    assert frame.operands == [5, 1, 2]
+    assert frame.result == 8
+
+
+def test_extract_inline_arith_parses_reversed_chained_expression():
+    text = "8 = 5 + 1 + 2"
+    frames = _extract_inline_arith_frames_from_text(text, span_id="s1")
+
+    assert len(frames) == 1
+    frame = frames[0]
+    assert frame.operation == "add"
+    assert frame.operands == [5, 1, 2]
+    assert frame.result == 8

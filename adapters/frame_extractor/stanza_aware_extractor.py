@@ -102,6 +102,66 @@ _SUBJ_LEMMA_MAP: dict[str, str] = {
 }
 
 _INLINE_ARITH_RE = re.compile(r"(\d+)\s*([+\-×·*/÷])\s*(\d+)\s*=\s*(\d+)")
+_INLINE_CHAIN_RE = re.compile(r"^\s*(\d+(?:\s*[+\-×·*/÷]\s*\d+)+)\s*=\s*(\d+)\s*$")
+_INLINE_CHAIN_REVERSED = re.compile(
+    r"^\s*(\d+)\s*=\s*(\d+(?:\s*[+\-×·*/÷]\s*\d+)+)\s*$"
+)
+
+
+def _eval_chain(operation: str, operands: list[int]) -> int | float | None:
+    if len(operands) < 2:
+        return None
+    value: int | float = operands[0]
+    for rhs in operands[1:]:
+        if operation == "add":
+            value = value + rhs
+        elif operation == "sub":
+            value = value - rhs
+        elif operation == "mul":
+            value = value * rhs
+        elif operation == "div":
+            if rhs == 0:
+                return None
+            value = value / rhs
+        else:
+            return None
+    return value
+
+
+def _parse_token_arith_chain(tokens: list[StanzaToken]) -> tuple[str, list[int | str]] | None:
+    expr_tokens = [t for t in tokens if t.upos == "NUM" or t.text in _OP_SYMBOL_MAP]
+    if len(expr_tokens) < 3:
+        return None
+
+    operands: list[int | str] = []
+    operations: list[str] = []
+    expect_num = True
+
+    for tok in expr_tokens:
+        if expect_num:
+            if tok.upos != "NUM":
+                return None
+            try:
+                operands.append(int(tok.text))
+            except ValueError:
+                operands.append(tok.text)
+            expect_num = False
+            continue
+
+        mapped = _OP_SYMBOL_MAP.get(tok.text)
+        if mapped is None:
+            return None
+        operations.append(mapped)
+        expect_num = True
+
+    if expect_num:
+        return None
+    if len(operands) < 2 or len(operations) != len(operands) - 1:
+        return None
+    if any(op != operations[0] for op in operations[1:]):
+        return None
+
+    return operations[0], operands
 
 
 # ── Wewnętrzny model kandydata ────────────────────────────────────────────────
@@ -364,23 +424,37 @@ class StanzaAwareExtractor:
         lhs = cand.tokens_before(eq_pos)
         rhs = cand.tokens_after(eq_pos)
 
-        num_lhs = [t for t in lhs if t.upos == "NUM"]
-        num_rhs = [t for t in rhs if t.upos == "NUM"]
-        ops     = [t for t in lhs if t.text in _OP_SYMBOL_MAP]
-
-        if len(num_lhs) < 2 or not num_rhs or not ops:
-            return None
-
         def _to_int(tok: StanzaToken) -> int | str:
             try:
                 return int(tok.text)
             except ValueError:
                 return tok.text
 
+        parsed_lhs = _parse_token_arith_chain(lhs)
+        parsed_rhs = _parse_token_arith_chain(rhs)
+
+        operation: str
+        operands: list[int | str]
+        result: int | str
+        if parsed_lhs is not None:
+            num_rhs = [t for t in rhs if t.upos == "NUM"]
+            if not num_rhs:
+                return None
+            operation, operands = parsed_lhs
+            result = _to_int(num_rhs[0])
+        elif parsed_rhs is not None:
+            num_lhs = [t for t in lhs if t.upos == "NUM"]
+            if not num_lhs:
+                return None
+            operation, operands = parsed_rhs
+            result = _to_int(num_lhs[0])
+        else:
+            return None
+
         return ArithExampleFrame(
-            operation=_OP_SYMBOL_MAP[ops[0].text],
-            operands=[_to_int(num_lhs[0]), _to_int(num_lhs[1])],
-            result=_to_int(num_rhs[0]),
+            operation=operation,
+            operands=operands,
+            result=result,
             source_span_id=span_id,
         )
 
@@ -543,19 +617,20 @@ class StanzaAwareExtractor:
                     message=f"Nieznana operacja: {frame.operation!r}",
                     field_path="operation",
                 ))
-            if len(frame.operands) != 2:
+            if len(frame.operands) < 2:
                 issues.append(ValidationIssue(
                     severity="error", code="WRONG_ARITY",
-                    message=f"Oczekiwano 2 operandów, znaleziono {len(frame.operands)}",
+                    message=f"Oczekiwano >=2 operandow, znaleziono {len(frame.operands)}",
                     field_path="operands",
                 ))
             elif all(isinstance(x, int) for x in (*frame.operands, frame.result)):
-                a, b, r = frame.operands[0], frame.operands[1], frame.result  # type: ignore[misc]
-                expected = {"add": a + b, "sub": a - b, "mul": a * b}.get(frame.operation)
+                operands = [int(x) for x in frame.operands]
+                r = int(frame.result)
+                expected = _eval_chain(frame.operation, operands)
                 if expected is not None and expected != r:
                     issues.append(ValidationIssue(
                         severity="warning", code="ARITH_MISMATCH",
-                        message=f"Wynik {r} ≠ oczekiwany {expected}",
+                        message=f"Wynik {r} != oczekiwany {expected}",
                         field_path="result",
                     ))
 
@@ -619,7 +694,7 @@ class StanzaAwareExtractor:
         return issues
 
 
-def _extract_inline_arith_frames_from_text(text: str, span_id: str) -> list[ArithExampleFrame]:
+def _extract_inline_arith_frames_from_text_legacy(text: str, span_id: str) -> list[ArithExampleFrame]:
     """Extracts all simple equations `a op b = c` found in text lines."""
     frames: list[ArithExampleFrame] = []
     for raw_line in text.splitlines():
@@ -650,4 +725,93 @@ def _extract_inline_arith_frames_from_text(text: str, span_id: str) -> list[Arit
                     source_span_id=span_id,
                 )
             )
+    return frames
+
+
+def _extract_inline_arith_frames_from_text(text: str, span_id: str) -> list[ArithExampleFrame]:
+    """Extracts simple and chained equations from text lines."""
+    frames: list[ArithExampleFrame] = []
+    seen: set[tuple[str, tuple[int | str, ...], int | str]] = set()
+
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        chain = _INLINE_CHAIN_RE.match(line)
+        if chain:
+            lhs = chain.group(1)
+            rhs = int(chain.group(2))
+            nums = [int(x) for x in re.findall(r"\d+", lhs)]
+            ops = re.findall(r"[+\-×·*/÷]", lhs)
+            if len(nums) >= 2 and len(ops) == len(nums) - 1:
+                mapped_ops = [_OP_SYMBOL_MAP.get(op) for op in ops]
+                if mapped_ops and all(mapped_ops) and all(
+                    op == mapped_ops[0] for op in mapped_ops[1:]
+                ):
+                    op_norm = mapped_ops[0]
+                    sig = (op_norm, tuple(nums), rhs)
+                    if sig not in seen:
+                        seen.add(sig)
+                        frames.append(
+                            ArithExampleFrame(
+                                operation=op_norm,
+                                operands=nums,
+                                result=rhs,
+                                source_span_id=span_id,
+                            )
+                        )
+
+        chain_rev = _INLINE_CHAIN_REVERSED.match(line)
+        if chain_rev:
+            rhs_value = int(chain_rev.group(1))
+            expr = chain_rev.group(2)
+            nums = [int(x) for x in re.findall(r"\d+", expr)]
+            ops = re.findall(r"[+\-Ã—Â·*/Ã·]", expr)
+            if len(nums) >= 2 and len(ops) == len(nums) - 1:
+                mapped_ops = [_OP_SYMBOL_MAP.get(op) for op in ops]
+                if mapped_ops and all(mapped_ops) and all(
+                    op == mapped_ops[0] for op in mapped_ops[1:]
+                ):
+                    op_norm = mapped_ops[0]
+                    sig = (op_norm, tuple(nums), rhs_value)
+                    if sig not in seen:
+                        seen.add(sig)
+                        frames.append(
+                            ArithExampleFrame(
+                                operation=op_norm,
+                                operands=nums,
+                                result=rhs_value,
+                                source_span_id=span_id,
+                            )
+                        )
+
+        for m in _INLINE_ARITH_RE.finditer(line):
+            prefix = line[: m.start()].rstrip()
+            if prefix and prefix[-1] in "+-*/×÷·":
+                continue
+            suffix = line[m.end() :].lstrip()
+            if suffix and suffix[0] in "+-*/×÷·":
+                continue
+
+            a = int(m.group(1))
+            op = m.group(2)
+            b = int(m.group(3))
+            r = int(m.group(4))
+            op_norm = _OP_SYMBOL_MAP.get(op)
+            if op_norm is None:
+                continue
+            sig = (op_norm, (a, b), r)
+            if sig in seen:
+                continue
+            seen.add(sig)
+            frames.append(
+                ArithExampleFrame(
+                    operation=op_norm,
+                    operands=[a, b],
+                    result=r,
+                    source_span_id=span_id,
+                )
+            )
+
     return frames

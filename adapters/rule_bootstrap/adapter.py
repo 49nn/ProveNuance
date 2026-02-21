@@ -648,6 +648,129 @@ def _mine_structural_eq_bridge_candidates(
     return out
 
 
+def _mine_structural_eq_commutativity_candidates(
+    facts: list[Fact],
+    relation_whitelist: set[str],
+    pairs_by_rel: dict[str, set[tuple[str, str]]],
+    tails_by_rel_head: dict[str, dict[str, set[str]]],
+    base_rates: dict[str, float],
+    config: BootstrapConfig,
+) -> list[CandidateRule]:
+    """
+    Learns commutativity-like bridge rules for arithmetic equations:
+      eq(add(X,Y),Z) :- eq(add(Y,X),Z)
+
+    Conservative scope: only "add" to avoid inventing non-commutative ops.
+    """
+    if "eq" not in relation_whitelist:
+        return []
+
+    eq_pairs = pairs_by_rel.get("eq", set())
+    if not eq_pairs:
+        return []
+
+    commutative_ops = {"add"}
+    coverage_by_op: Counter[str] = Counter()
+    support_by_op: Counter[str] = Counter()
+    predicted_pairs_by_op: DefaultDict[str, set[tuple[str, str]]] = defaultdict(set)
+    provenance_by_op: DefaultDict[str, set[str]] = defaultdict(set)
+    eq_prov_by_pair: DefaultDict[tuple[str, str], set[str]] = defaultdict(set)
+    sample_by_op: dict[str, str] = {}
+
+    for fact in facts:
+        if fact.status != FactStatus.ASSERTED or fact.r != "eq":
+            continue
+        pair = (fact.h, fact.t)
+        for sid in fact.provenance:
+            if sid:
+                eq_prov_by_pair[pair].add(sid)
+
+    for expr, result in eq_pairs:
+        parsed = _parse_atom(expr)
+        if parsed is None:
+            continue
+        op, args = parsed
+        if op not in commutative_ops or len(args) != 2:
+            continue
+
+        left, right = args
+        mirrored_expr = f"{op}({right},{left})"
+        mirrored_pair = (mirrored_expr, result)
+
+        coverage_by_op[op] += 1
+        predicted_pairs_by_op[op].add(mirrored_pair)
+        provenance_by_op[op].update(eq_prov_by_pair.get((expr, result), set()))
+
+        if mirrored_pair in eq_pairs:
+            support_by_op[op] += 1
+            provenance_by_op[op].update(eq_prov_by_pair.get(mirrored_pair, set()))
+            sample_by_op.setdefault(
+                op,
+                f"eq({mirrored_expr},{result}) :- eq({expr},{result})",
+            )
+
+    out: list[CandidateRule] = []
+    for op, coverage in coverage_by_op.items():
+        support = int(support_by_op.get(op, 0))
+        confidence = 0.0 if coverage == 0 else support / float(coverage)
+        base_rate = float(base_rates.get("eq", 0.0))
+        if base_rate == 0.0:
+            lift = math.inf if confidence > 0.0 else 0.0
+        else:
+            lift = confidence / base_rate
+
+        head_atom = f"eq({op}(X,Y),Z)"
+        body_atoms = (f"eq({op}(Y,X),Z)",)
+
+        predicted_new_pairs = {
+            p for p in predicted_pairs_by_op[op] if p not in eq_pairs
+        }
+        violations = _violations_after_application(
+            head_rel="eq",
+            predicted_new_pairs=predicted_new_pairs,
+            tails_by_rel_head=tails_by_rel_head,
+            functional_relations=config.functional_relations,
+        )
+
+        corruption = 0
+        local_cwa = 0
+        reasons = _candidate_reasons(
+            head_atom=head_atom,
+            body_atoms=body_atoms,
+            coverage=coverage,
+            support=support,
+            confidence=confidence,
+            lift=lift,
+            violations=violations,
+            corruption=corruption,
+            local_cwa=local_cwa,
+            config=config,
+        )
+
+        out.append(
+            CandidateRule(
+                head_relation="eq",
+                body_relations=("eq",),
+                head=head_atom,
+                body=body_atoms,
+                coverage=coverage,
+                support=support,
+                confidence=confidence,
+                lift=lift,
+                base_rate=base_rate,
+                corruption_hits=corruption,
+                local_cwa_negatives=local_cwa,
+                violations=violations,
+                sample_grounding=sample_by_op.get(op),
+                promotable=len(reasons) == 0,
+                rejection_reasons=reasons,
+                provenance=sorted(provenance_by_op[op])[:40],
+            )
+        )
+
+    return out
+
+
 class RuleBootstrapper(RuleBootstrap):
     def __init__(self, config: Optional[BootstrapConfig] = None) -> None:
         self.config = _normalized_config(config or BootstrapConfig())
@@ -750,6 +873,27 @@ class RuleBootstrapper(RuleBootstrap):
         if structural_candidates:
             pattern_count += len(structural_candidates)
             for candidate in structural_candidates:
+                key = (candidate.head, candidate.body)
+                prev = out_candidates.get(key)
+                if prev is None:
+                    out_candidates[key] = candidate
+                    continue
+                prev_score = (prev.confidence, prev.support, prev.lift)
+                now_score = (candidate.confidence, candidate.support, candidate.lift)
+                if now_score > prev_score:
+                    out_candidates[key] = candidate
+
+        commutativity_candidates = _mine_structural_eq_commutativity_candidates(
+            facts=asserted,
+            relation_whitelist=self.config.relation_whitelist,
+            pairs_by_rel=pairs_by_rel,
+            tails_by_rel_head=tails_by_rel_head,
+            base_rates=base_rates,
+            config=self.config,
+        )
+        if commutativity_candidates:
+            pattern_count += len(commutativity_candidates)
+            for candidate in commutativity_candidates:
                 key = (candidate.head, candidate.body)
                 prev = out_candidates.get(key)
                 if prev is None:

@@ -105,6 +105,28 @@ def _tokenize(text: str) -> list[str]:
     return tokens
 
 
+def _select_equation_expr_side(text: str) -> str:
+    parts = re.split(r"\s*=\s*", text.strip())
+    if len(parts) != 2:
+        return text
+
+    left, right = parts[0], parts[1]
+
+    def _has_operator(value: str) -> bool:
+        return bool(re.search(r"[+\-*/×÷]", value))
+
+    left_has_op = _has_operator(left)
+    right_has_op = _has_operator(right)
+
+    if left_has_op and not right_has_op:
+        return left
+    if right_has_op and not left_has_op:
+        return right
+    if left_has_op:
+        return left
+    return text
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Precedence climbing parser
 # ──────────────────────────────────────────────────────────────────────────────
@@ -219,11 +241,12 @@ class RegexMathParser:
 
     def _parse_expr_problem(self, text: str) -> ParsedProblem:
         try:
-            tokens = _tokenize(text)
+            expr_text = _select_equation_expr_side(text)
+            tokens = _tokenize(expr_text)
             if not tokens:
                 raise ValueError("Puste wyrażenie")
             ast = _Parser(tokens).parse()
-            nums = [int(n) for n in _NUMBER_RE.findall(text)]
+            nums = [int(n) for n in _NUMBER_RE.findall(expr_text)]
             op_hint = self._infer_op_from_ast(ast)
             return ParsedProblem(
                 original_text=text,

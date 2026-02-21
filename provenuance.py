@@ -42,8 +42,137 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from rich import box
+from rich.console import Console
+from rich.table import Table
+
 
 # -- helpers ---------------------------------------------------------------
+
+_CONSOLE: Console | None = None
+
+
+def _console() -> Console:
+    global _CONSOLE
+    if _CONSOLE is None:
+        _CONSOLE = Console(highlight=False)
+    return _CONSOLE
+
+
+def _safe_terminal_text(value: Any) -> str:
+    s = str(value)
+    s = (
+        s.replace("→", "->")
+        .replace("—", "-")
+        .replace("…", "...")
+        .replace("∅", "EMPTY")
+        .replace("×", "x")
+        .replace("÷", "/")
+    )
+    encoding = sys.stdout.encoding or "utf-8"
+    try:
+        s.encode(encoding)
+        return s
+    except UnicodeEncodeError:
+        return s.encode(encoding, errors="replace").decode(encoding, errors="replace")
+
+
+def _short(value: Any, limit: int = 64) -> str:
+    s = _safe_terminal_text(value).replace("\n", " ").strip()
+    if len(s) <= limit:
+        return s
+    return s[: limit - 3] + "..."
+
+
+def _print_kv_table(title: str, rows: list[tuple[str, Any]]) -> None:
+    table = Table(title=title, box=box.ASCII, show_header=False, pad_edge=False)
+    table.add_column("Key", no_wrap=True, style="bold cyan")
+    table.add_column("Value")
+    for key, value in rows:
+        table.add_row(_safe_terminal_text(key), _safe_terminal_text(value))
+    _console().print(table)
+
+
+def _print_facts_table(status: str, facts: list[Any]) -> None:
+    table = Table(
+        title=f"Facts ({status}) [{len(facts)}]",
+        box=box.ASCII,
+        show_lines=False,
+    )
+    table.add_column("ID", no_wrap=True, style="cyan")
+    table.add_column("H")
+    table.add_column("R", no_wrap=True)
+    table.add_column("T")
+    table.add_column("Status", no_wrap=True)
+    table.add_column("Conf", justify="right", no_wrap=True)
+    for fact in facts:
+        table.add_row(
+            _safe_terminal_text(str(fact.fact_id)[:8]),
+            _short(fact.h, 44),
+            _safe_terminal_text(fact.r),
+            _short(fact.t, 44),
+            _safe_terminal_text(fact.status.value),
+            f"{fact.confidence:.2f}",
+        )
+    _console().print(table)
+
+
+def _print_rules_table(status: str, rules: list[Any]) -> None:
+    table = Table(
+        title=f"Rules ({status}) [{len(rules)}]",
+        box=box.ASCII,
+        show_lines=False,
+    )
+    table.add_column("ID", no_wrap=True, style="cyan")
+    table.add_column("Head")
+    table.add_column("Body")
+    table.add_column("Status", no_wrap=True)
+    table.add_column("Prio", justify="right", no_wrap=True)
+    for rule in rules:
+        body = ", ".join(rule.body) if rule.body else "EMPTY"
+        table.add_row(
+            _safe_terminal_text(str(rule.rule_id)[:8]),
+            _short(rule.head, 48),
+            _short(body, 56),
+            _safe_terminal_text(rule.status.value),
+            _safe_terminal_text(rule.priority),
+        )
+    _console().print(table)
+
+
+def _print_bootstrap_candidates_table(candidates: list[Any], show: int) -> None:
+    table = Table(
+        title=f"Top {show} bootstrap candidates",
+        box=box.ASCII,
+        show_lines=False,
+    )
+    table.add_column("#", justify="right", no_wrap=True)
+    table.add_column("Rule")
+    table.add_column("Support", justify="right", no_wrap=True)
+    table.add_column("Conf", justify="right", no_wrap=True)
+    table.add_column("Lift", justify="right", no_wrap=True)
+    table.add_column("Viol", justify="right", no_wrap=True)
+    table.add_column("Corr", justify="right", no_wrap=True)
+    table.add_column("CWA", justify="right", no_wrap=True)
+    table.add_column("OK", justify="center", no_wrap=True)
+    table.add_column("Rule ID", no_wrap=True)
+    for idx, cand in enumerate(candidates[:show], 1):
+        body = ", ".join(cand.body)
+        rule = f"{cand.head} :- {body}"
+        lift = "inf" if cand.lift == float("inf") else f"{cand.lift:.3f}"
+        table.add_row(
+            str(idx),
+            _short(rule, 78),
+            f"{cand.support}/{cand.coverage}",
+            f"{cand.confidence:.3f}",
+            lift,
+            str(cand.violations),
+            str(cand.corruption_hits),
+            str(cand.local_cwa_negatives),
+            "yes" if cand.promotable else "no",
+            _safe_terminal_text(cand.rule_id or "-"),
+        )
+    _console().print(table)
 
 def _dsn() -> str:
     from config import Settings
@@ -172,6 +301,67 @@ def _extract_timeline_plan(
         normalized_events.append((op, value))
 
     return initial, normalized_events
+
+
+def _extract_expr_chain_plan(expr_ast: Any) -> tuple[int, list[tuple[str, int]]] | None:
+    def _number_value(node: Any) -> int | None:
+        if node is None:
+            return None
+        node_type = getattr(node, "node_type", None)
+        if node_type == "number":
+            return _coerce_int(getattr(node, "value", None))
+        if node_type == "unary" and getattr(node, "op", None) == "-":
+            inner = _number_value(getattr(node, "operand", None))
+            return None if inner is None else -inner
+        return None
+
+    def _walk(node: Any) -> tuple[int, list[tuple[str, int]]] | None:
+        if node is None:
+            return None
+
+        number = _number_value(node)
+        if number is not None:
+            return number, []
+
+        if getattr(node, "node_type", None) != "binop":
+            return None
+
+        left_plan = _walk(getattr(node, "left", None))
+        if left_plan is None:
+            return None
+        right_number = _number_value(getattr(node, "right", None))
+        op = _normalize_operation(getattr(node, "op", None))
+        if right_number is None or op is None:
+            return None
+
+        initial, events = left_plan
+        return initial, [*events, (op, right_number)]
+
+    plan = _walk(expr_ast)
+    if plan is None:
+        return None
+    initial, events = plan
+    if not events:
+        return None
+    return initial, events
+
+
+def _extract_flat_expr_chain_plan(
+    operation_hint: Any,
+    numbers: list[Any],
+) -> tuple[int, list[tuple[str, int]]] | None:
+    op = _normalize_operation(operation_hint)
+    if op is None or len(numbers) < 3:
+        return None
+
+    ints: list[int] = []
+    for raw in numbers:
+        value = _coerce_int(raw)
+        if value is None:
+            return None
+        ints.append(value)
+
+    return ints[0], [(op, v) for v in ints[1:]]
 
 
 def _first_binding(answer: dict[str, str], preferred_var: str = "Z") -> str | None:
@@ -306,12 +496,9 @@ async def _facts(args: argparse.Namespace) -> None:
         await store.close()
 
     if not facts:
-        print("Brak faktów.")
+        print("Brak faktow.")
         return
-    print(f"Fakty ({args.status}): {len(facts)}")
-    for f in facts:
-        print(f"  {f.fact_id[:8]}…  {f.h} —[{f.r}]→ {f.t}"
-              f"  [{f.status.value}]  conf={f.confidence:.2f}")
+    _print_facts_table(args.status, facts)
 
 
 async def _rules(args: argparse.Namespace) -> None:
@@ -324,18 +511,12 @@ async def _rules(args: argparse.Namespace) -> None:
         await store.close()
 
     if not rules:
-        print("Brak reguł.")
+        print("Brak regul.")
         return
-    print(f"Reguły ({args.status}): {len(rules)}")
-    for r in rules:
-        body = ", ".join(r.body) if r.body else "∅"
-        print(f"  {r.rule_id[:8]}…  {r.head} :- {body}"
-              f"  [{r.status.value}]  prio={r.priority}")
+    _print_rules_table(args.status, rules)
 
 
 async def _bootstrap_rules(args: argparse.Namespace) -> None:
-    import math
-
     from adapters.knowledge_store.postgres_knowledge_store import PostgresKnowledgeStore
     from adapters.rule_bootstrap import RuleBootstrapper
     from ports.rule_bootstrap import BootstrapConfig, DEFAULT_RELATION_WHITELIST
@@ -372,38 +553,25 @@ async def _bootstrap_rules(args: argparse.Namespace) -> None:
     finally:
         await store.close()
 
-    print(f"asserted_facts: {summary.asserted_fact_count}")
-    print(f"relations:      {summary.relation_count}")
-    print(f"patterns:       {summary.pattern_count}")
-    print(f"candidates:     {summary.candidate_count}")
-    print(f"stored_new:     {summary.stored_created}")
-    print(f"stored_update:  {summary.stored_updated}")
-    print(f"promoted:       {summary.promoted}")
+    summary_rows: list[tuple[str, Any]] = [
+        ("asserted_facts", summary.asserted_fact_count),
+        ("relations", summary.relation_count),
+        ("patterns", summary.pattern_count),
+        ("candidates", summary.candidate_count),
+        ("stored_new", summary.stored_created),
+        ("stored_update", summary.stored_updated),
+        ("promoted", summary.promoted),
+    ]
     if args.dry_run:
-        print("mode:           dry-run (no DB writes)")
+        summary_rows.append(("mode", "dry-run (no DB writes)"))
+    _print_kv_table("Rule Bootstrap Summary", summary_rows)
 
     if not summary.candidates:
         print("Brak kandydatow reguly.")
         return
 
     show = min(args.show, len(summary.candidates))
-    print(f"\nTop {show} candidate rules:")
-    for idx, cand in enumerate(summary.candidates[:show], 1):
-        body = ", ".join(cand.body)
-        lift = "inf" if math.isinf(cand.lift) else f"{cand.lift:.3f}"
-        print(f"{idx:02d}. {cand.head} :- {body}")
-        print(
-            f"    support={cand.support}/{cand.coverage} "
-            f"confidence={cand.confidence:.3f} lift={lift} "
-            f"viol={cand.violations} corr={cand.corruption_hits} "
-            f"cwa={cand.local_cwa_negatives} promotable={cand.promotable}"
-        )
-        if cand.rule_id:
-            print(f"    rule_id={cand.rule_id} promoted={cand.promoted}")
-        if cand.sample_grounding:
-            print(f"    sample={cand.sample_grounding}")
-        if cand.rejection_reasons:
-            print(f"    rejected_by={','.join(cand.rejection_reasons)}")
+    _print_bootstrap_candidates_table(summary.candidates, show)
 
 
 async def _ner(args: argparse.Namespace) -> None:
@@ -512,9 +680,25 @@ async def _solve(args: argparse.Namespace) -> None:
     timeline_plan: tuple[int, list[tuple[str, int]]] | None = None
     if parsed.problem_type == ProblemType.WORD_PROBLEM:
         timeline_plan = _extract_timeline_plan(parsed.slots, parsed.operation_hint)
+    elif parsed.problem_type == ProblemType.EXPR:
+        timeline_plan = _extract_expr_chain_plan(parsed.expr_ast)
+        if timeline_plan is None:
+            regex_parsed = RegexMathParser().parse(text)
+            if regex_parsed.problem_type == ProblemType.EXPR:
+                timeline_plan = _extract_expr_chain_plan(regex_parsed.expr_ast)
+                if timeline_plan is None:
+                    timeline_plan = _extract_flat_expr_chain_plan(
+                        regex_parsed.operation_hint,
+                        regex_parsed.extracted_numbers,
+                    )
+        if timeline_plan is None:
+            timeline_plan = _extract_flat_expr_chain_plan(
+                parsed.operation_hint,
+                parsed.extracted_numbers,
+            )
 
     query = parsed.logic_query
-    if parsed.problem_type == ProblemType.EXPR and query is None:
+    if parsed.problem_type == ProblemType.EXPR and query is None and timeline_plan is None:
         # W trybie KB-only wyrażenie musi dać się sprowadzić do jednego atomu op(a,b,?Z).
         op = parsed.operation_hint
         nums = parsed.extracted_numbers
@@ -852,4 +1036,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

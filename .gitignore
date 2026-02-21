@@ -5,6 +5,7 @@ __pycache__/
 
 # Tool caches
 .pytest_cache/
+.cache/
 .ruff_cache/
 .mypy_cache/
 .pyre/
@@ -15,4 +16,5 @@ __pycache__/
 # Local pytest temp/cache folders seen in this repo
 pytest-cache-files-*/
 
+data/cli_proofs.json
 data/cli_proofs.json
