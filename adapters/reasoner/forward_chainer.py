@@ -286,10 +286,12 @@ class ForwardChainer:
             for atom_str in _fact_to_atoms(fact):
                 ground_atoms.append((atom_str, fact.fact_id, list(fact.provenance)))
 
-        # Załaduj asserted reguły
+        # Załaduj asserted reguły; sortuj rosnąco po liczbie atomów w ciele
+        # (reguły prostsze = mniej atomów próbowane najpierw, unika eksplozji DFS)
         rules_list: list[tuple[str, list[str], str]] = []
         async for rule in self._store.get_asserted_rules(snapshot):
             rules_list.append((rule.head, rule.body, rule.rule_id))
+        rules_list.sort(key=lambda r: len(r[1]))
 
         # SLD resolution
         solver = _SLDSolver(

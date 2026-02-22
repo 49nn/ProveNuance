@@ -518,7 +518,7 @@ async def _rules(args: argparse.Namespace) -> None:
 
 async def _bootstrap_rules(args: argparse.Namespace) -> None:
     from adapters.knowledge_store.postgres_knowledge_store import PostgresKnowledgeStore
-    from adapters.rule_bootstrap import RuleBootstrapper
+    from adapters.pattern_miner import BruteForcePatternMiner
     from ports.rule_bootstrap import BootstrapConfig, DEFAULT_RELATION_WHITELIST
 
     relations = set(args.relations) if args.relations else set(DEFAULT_RELATION_WHITELIST)
@@ -548,7 +548,7 @@ async def _bootstrap_rules(args: argparse.Namespace) -> None:
 
     store = await PostgresKnowledgeStore.create(_dsn())
     try:
-        bootstrapper = RuleBootstrapper(cfg)
+        bootstrapper = BruteForcePatternMiner(cfg)
         summary = await bootstrapper.bootstrap(store)
     finally:
         await store.close()
